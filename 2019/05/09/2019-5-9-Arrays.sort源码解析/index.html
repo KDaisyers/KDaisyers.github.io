@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Array.sort源码解析 - Hexo</title>
+
+
+    <meta name="description" content="上一篇博客只是对这个排序来一个大致的框架这里进行全面的解释">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Array.sort源码解析">
+<meta property="og:url" content="http://yoursite.com/2019/05/09/2019-5-9-Arrays.sort%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="上一篇博客只是对这个排序来一个大致的框架这里进行全面的解释">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg">
+<meta property="article:published_time" content="2019-05-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-01-08T07:34:13.163Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="源码">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="Array.sort源码解析" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg" alt="Array.sort源码解析">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-08T16:00:00.000Z">2019-05-09</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    16 minutes read (About 2364 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Array.sort源码解析
+            
+        </h1>
+        <div class="content">
+            <blockquote>
+<p>上一篇博客只是对这个排序来一个大致的框架<br>这里进行全面的解释</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="改进的插入排序"><a href="#改进的插入排序" class="headerlink" title="改进的插入排序"></a>改进的插入排序</h1><p>改进的插入排序通过传入布尔值的不同来分别调用传统插入排序还是双插入排序<br>先放一下代码吧</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = left, j = i; i &lt; right; j = ++i) &#123;</span><br><span class="line">        <span class="keyword">int</span> ai = a[i + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">while</span> (ai &lt; a[j]) &#123;</span><br><span class="line">              a[j + <span class="number">1</span>] = a[j];</span><br><span class="line">              <span class="keyword">if</span> (j-- == left) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">              &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        a[j + <span class="number">1</span>] = ai;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是传统的插入排序，迭代将无序值插入到有序的序列中<br>博客<a href="2019-5-8-Arrays.sort底层源码.md">Arrays.sort底层源码</a>中有插入排序算法的可视化</p>
+<p>那来看看什么是双插入排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* Skip the longest ascending sequence.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (left &gt;= right) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">&#125; <span class="keyword">while</span> (a[++left] &gt;= a[left - <span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> k = left; ++left &lt;= right; k = ++left) &#123;</span><br><span class="line">        <span class="keyword">int</span> a1 = a[k], a2 = a[left];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (a1 &lt; a2) &#123;</span><br><span class="line">             a2 = a1; a1 = a[left];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (a1 &lt; a[--k]) &#123;</span><br><span class="line">              a[k + <span class="number">2</span>] = a[k];</span><br><span class="line">        &#125;</span><br><span class="line">        a[++k + <span class="number">1</span>] = a1;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (a2 &lt; a[--k]) &#123;</span><br><span class="line">              a[k + <span class="number">1</span>] = a[k];</span><br><span class="line">        &#125;</span><br><span class="line">        a[k + <span class="number">1</span>] = a2;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> last = a[right];</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (last &lt; a[--right]) &#123;</span><br><span class="line">        a[right + <span class="number">1</span>] = a[right];</span><br><span class="line">&#125;</span><br><span class="line">a[right + <span class="number">1</span>] = last;</span><br></pre></td></tr></table></figure>
+
+<p>首先，跳过有序的一部分，在对无序的部分进行操作<br>可以看到定义a1和a2分别存储两个相邻需要排序的值，保证a1&gt;a2<br>接着遍历在a1和a2之前的值，找到第一个小于a1的值的位置，这个时候a1就找到组织了<br>继续往前遍历，因为a2必然在a1前面<br>而代码这两个while循环其实就是传统插入算法</p>
+<p>因为双插入排序需要相邻的两个元素，那么如果数组个数是奇数怎么办？<br>由于没有相邻的元素与之操作，那么只能在进行一次传统插入排序<br>最后一个while就是对这种情况进行实现的</p>
+<p>这里需要提一下双插入排序的一个局限：使用双插入排序的话前面必须得有元素</p>
+<h1 id="改进的快速排序"><a href="#改进的快速排序" class="headerlink" title="改进的快速排序"></a>改进的快速排序</h1><h3 id="双枢轴快速排序"><a href="#双枢轴快速排序" class="headerlink" title="双枢轴快速排序"></a>双枢轴快速排序</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Inexpensive approximation of length / 7</span></span><br><span class="line"><span class="keyword">int</span> seventh = (length &gt;&gt; <span class="number">3</span>) + (length &gt;&gt; <span class="number">6</span>) + <span class="number">1</span>;</span><br><span class="line"><span class="comment">//seventh = (length/8) + (length/64) + 1 = length/7</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> e3 = (left + right) &gt;&gt;&gt; <span class="number">1</span>; <span class="comment">// The midpoint   e1~e5 = 4* length / 7</span></span><br><span class="line"><span class="keyword">int</span> e2 = e3 - seventh;   <span class="comment">// 3/14  5/14 7/14 9/14 11/14</span></span><br><span class="line"><span class="keyword">int</span> e1 = e2 - seventh;</span><br><span class="line"><span class="keyword">int</span> e4 = e3 + seventh;</span><br><span class="line"><span class="keyword">int</span> e5 = e4 + seventh;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Sort these elements using insertion sort</span></span><br><span class="line"><span class="keyword">if</span> (a[e2] &lt; a[e1]) &#123; <span class="keyword">int</span> t = a[e2]; a[e2] = a[e1]; a[e1] = t; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (a[e3] &lt; a[e2]) &#123; <span class="keyword">int</span> t = a[e3]; a[e3] = a[e2]; a[e2] = t;</span><br><span class="line">      <span class="keyword">if</span> (t &lt; a[e1]) &#123; a[e2] = a[e1]; a[e1] = t; &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (a[e4] &lt; a[e3]) &#123; <span class="keyword">int</span> t = a[e4]; a[e4] = a[e3]; a[e3] = t;</span><br><span class="line">      <span class="keyword">if</span> (t &lt; a[e2]) &#123; a[e3] = a[e2]; a[e2] = t;</span><br><span class="line">            <span class="keyword">if</span> (t &lt; a[e1]) &#123; a[e2] = a[e1]; a[e1] = t; &#125;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (a[e5] &lt; a[e4]) &#123; <span class="keyword">int</span> t = a[e5]; a[e5] = a[e4]; a[e4] = t;</span><br><span class="line">      <span class="keyword">if</span> (t &lt; a[e3]) &#123; a[e4] = a[e3]; a[e3] = t;</span><br><span class="line">            <span class="keyword">if</span> (t &lt; a[e2]) &#123; a[e3] = a[e2]; a[e2] = t;</span><br><span class="line">                  <span class="keyword">if</span> (t &lt; a[e1]) &#123; a[e2] = a[e1]; a[e1] = t; &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Pointers</span></span><br><span class="line"><span class="keyword">int</span> less  = left;  <span class="comment">// The index of the first element of center part</span></span><br><span class="line"><span class="keyword">int</span> great = right; <span class="comment">// The index before the first element of right part</span></span><br></pre></td></tr></table></figure>
+
+<p>首先，将整个数组划分为7等分，在确定5个分位点使每个分位点之间的距离为length/7<br>每个分位点位置为</p>
+<ul>
+<li>3*length/14</li>
+<li>5*length/14</li>
+<li>7*length/14</li>
+<li>9*length/14</li>
+<li>11*length/14</li>
+</ul>
+<p>然后为了以后选择枢轴做了升序排序<br>根据代码<code>a[e1] != a[e2] &amp;&amp; a[e2] != a[e3] &amp;&amp; a[e3] != a[e4] &amp;&amp; a[e4] != a[e5]</code>看到<br>只有每个节点都不相等时才会使用双枢轴快速排序</p>
+<p>在这里我的个人理解是，快速排序的基本思想还是找一个枢轴使大于它的在轴右边，小于轴的放在左边<br>那么改进的双枢轴会不会也是这样呢？无非就是两个轴</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> pivot1 = a[e2];</span><br><span class="line"><span class="keyword">int</span> pivot2 = a[e4];</span><br><span class="line"></span><br><span class="line">a[e2] = a[left];</span><br><span class="line">a[e4] = a[right];</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (a[++less] &lt; pivot1);</span><br><span class="line"><span class="keyword">while</span> (a[--great] &gt; pivot2);</span><br></pre></td></tr></table></figure>
+
+<p>果然，执行完while后就将这个数组分为了三部分<br>part1都小于pivot1，part3都大于pivot2，而part2中这三种都有(即有大于pivot2，也有小于pivot1和在此之间的)</p>
+<p>这个时候正常逻辑就该将part2中属于part1和part3“归还”回去<br>下面的代码实现了这个想法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">outer:</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> k = less - <span class="number">1</span>; ++k &lt;= great; ) &#123;</span><br><span class="line">          <span class="keyword">int</span> ak = a[k];</span><br><span class="line">          <span class="keyword">if</span> (ak &lt; pivot1) &#123; <span class="comment">// Move a[k] to left part</span></span><br><span class="line">                a[k] = a[less];  <span class="comment">//交换less和ak 扩张part1</span></span><br><span class="line">                a[less] = ak;</span><br><span class="line">                ++less;</span><br><span class="line">          &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ak &gt; pivot2) &#123; <span class="comment">// Move a[k] to right part</span></span><br><span class="line">                <span class="keyword">while</span> (a[great] &gt; pivot2) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (great-- == k) &#123;</span><br><span class="line">                        <span class="keyword">break</span> outer;   <span class="comment">//如果只剩最后一个元素，直接跳出</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">               <span class="keyword">if</span> (a[great] &lt; pivot1) &#123; <span class="comment">// a[great] &lt;= pivot2</span></span><br><span class="line">                   a[k] = a[less];  <span class="comment">//因为less已经大于pivot1，因此当a[great] &lt; pivot1,直接交换，使a[great]变成part1一部分</span></span><br><span class="line">                   a[less] = a[great];</span><br><span class="line">					         ++less;         <span class="comment">//扩张part1</span></span><br><span class="line">               &#125; <span class="keyword">else</span> &#123; <span class="comment">// pivot1 &lt;= a[great] &lt;= pivot2</span></span><br><span class="line">                a[k] = a[great];</span><br><span class="line">               &#125;</span><br><span class="line">              a[great] = ak;  <span class="comment">//这两句和前面a[less] = ak;++less;作用一样，扩张part3</span></span><br><span class="line">              --great;</span><br><span class="line">         &#125;</span><br><span class="line"> &#125;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">             *   left part         center part                  right part</span></span><br><span class="line"><span class="comment">             * +----------------------------------------------------------+</span></span><br><span class="line"><span class="comment">             * | == pivot1 |  pivot1 &lt; &amp;&amp; &lt; pivot2  |    ?    | == pivot2 |</span></span><br><span class="line"><span class="comment">             * +----------------------------------------------------------+</span></span><br><span class="line"><span class="comment">             *              ^                        ^       ^</span></span><br><span class="line"><span class="comment">             *              |                        |       |</span></span><br><span class="line"><span class="comment">             *             less                      k     great</span></span><br><span class="line"><span class="comment">             */</span></span><br></pre></td></tr></table></figure>
+
+<p>less是第一个大于pivot1，检查a[k]<br>如果属于第一部分，和less交换然后less+1，完成了part1的扩张<br>如果属于第二部分，不进行操作<br>如果属于第三部分，和great交换然后great-1，完成part3的扩张<br>这个for循环结束将三个部分规划完毕</p>
+<p>接下来就需要对part1和part3进行相同的排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Swap pivots into their final positions</span></span><br><span class="line">a[left]  = a[less  - <span class="number">1</span>]; a[less  - <span class="number">1</span>] = pivot1;</span><br><span class="line">a[right] = a[great + <span class="number">1</span>]; a[great + <span class="number">1</span>] = pivot2;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Sort left and right parts recursively, excluding known pivots</span></span><br><span class="line">sort(a, left, less - <span class="number">2</span>, leftmost);</span><br><span class="line">sort(a, great + <span class="number">2</span>, right, <span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这个时候我们正常思维是不是该递归来排序part2，但是不知道有没有想一个问题如果part1和part3中的值过少怎么办<br>这里如果直接操作part2将同样是个大量工作，为了提高算法，这里进行了一次判断 中间长度&gt; 4/7 of the array</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (less &lt; e1 &amp;&amp; e5 &lt; great) &#123;</span><br><span class="line">  <span class="keyword">while</span> (a[less] == pivot1) &#123;</span><br><span class="line">      ++less;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (a[great] == pivot2) &#123;</span><br><span class="line">      --great;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  outer:</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> k = less - <span class="number">1</span>; ++k &lt;= great; ) &#123;</span><br><span class="line">      <span class="keyword">int</span> ak = a[k];</span><br><span class="line">      <span class="keyword">if</span> (ak == pivot1) &#123; <span class="comment">// Move a[k] to left part</span></span><br><span class="line">          a[k] = a[less];</span><br><span class="line">          a[less] = ak;</span><br><span class="line">          ++less;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ak == pivot2) &#123; <span class="comment">// Move a[k] to right part</span></span><br><span class="line">          <span class="keyword">while</span> (a[great] == pivot2) &#123;</span><br><span class="line">              <span class="keyword">if</span> (great-- == k) &#123;</span><br><span class="line">                  <span class="keyword">break</span> outer;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">if</span> (a[great] == pivot1) &#123; <span class="comment">// a[great] &lt; pivot2</span></span><br><span class="line">              a[k] = a[less];</span><br><span class="line"></span><br><span class="line">              a[less] = pivot1;</span><br><span class="line">              ++less;</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123; <span class="comment">// pivot1 &lt; a[great] &lt; pivot2</span></span><br><span class="line">              a[k] = a[great];</span><br><span class="line">          &#125;</span><br><span class="line">          a[great] = ak;</span><br><span class="line">          --great;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看出来这里主要是找part2中等于pivot1和pivot2的值<br>与刚才的逻辑一样，将等于pivot1的放入左边，等于pivot2的放在右边，在pivot1和pivot2之间的放置中间<br>完成之后才处理pivot1 &lt;  &lt;pivot2 <code>sort(a, less, great, false);</code></p>
+<h3 id="单枢轴快速排序"><a href="#单枢轴快速排序" class="headerlink" title="单枢轴快速排序"></a>单枢轴快速排序</h3><p>单枢轴快速排序的条件是只要有两个节点相等就会执行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Use the third of the five sorted elements as pivot.</span></span><br><span class="line"><span class="comment"> * This value is inexpensive approximation of the median.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">int</span> pivot = a[e3];</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> k = less; k &lt;= great; ++k) &#123;</span><br><span class="line">    <span class="keyword">if</span> (a[k] == pivot) &#123;</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> ak = a[k];</span><br><span class="line">    <span class="keyword">if</span> (ak &lt; pivot) &#123; <span class="comment">// Move a[k] to left part</span></span><br><span class="line">        a[k] = a[less];</span><br><span class="line">        a[less] = ak;</span><br><span class="line">        ++less;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; <span class="comment">// a[k] &gt; pivot - Move a[k] to right part</span></span><br><span class="line">        <span class="keyword">while</span> (a[great] &gt; pivot) &#123;</span><br><span class="line">            --great;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (a[great] &lt; pivot) &#123; <span class="comment">// a[great] &lt;= pivot</span></span><br><span class="line">            a[k] = a[less];</span><br><span class="line">            a[less] = a[great];</span><br><span class="line">            ++less;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// a[great] == pivot</span></span><br><span class="line">            a[k] = pivot;</span><br><span class="line">        &#125;</span><br><span class="line">        a[great] = ak;</span><br><span class="line">        --great;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sort(a, left, less - <span class="number">1</span>, leftmost);</span><br><span class="line">sort(a, great + <span class="number">1</span>, right, <span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>
+
+<p>是不是感觉很熟悉，其实就是刚才那段代码<br>将小于枢轴的放在左边，大于枢轴的放在右边，等于的放在中间<br>逻辑清晰，概念明确</p>
+<h1 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h1><p>首先判断这个数组适不适合归并排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//程序定义run数组来存储每个子数组的开始下标</span></span><br><span class="line"><span class="keyword">int</span>[] run = <span class="keyword">new</span> <span class="keyword">int</span>[MAX_RUN_COUNT + <span class="number">1</span>];</span><br><span class="line"><span class="keyword">int</span> count = <span class="number">0</span>; run[<span class="number">0</span>] = left;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Check if the array is nearly sorted</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> k = left; k &lt; right; run[count] = k) &#123;</span><br><span class="line">      <span class="keyword">if</span> (a[k] &lt; a[k + <span class="number">1</span>]) &#123; <span class="comment">// ascending递增</span></span><br><span class="line">            <span class="keyword">while</span> (++k &lt;= right &amp;&amp; a[k - <span class="number">1</span>] &lt;= a[k]);</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (a[k] &gt; a[k + <span class="number">1</span>]) &#123; <span class="comment">// descending</span></span><br><span class="line">            <span class="keyword">while</span> (++k &lt;= right &amp;&amp; a[k - <span class="number">1</span>] &gt;= a[k]);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> lo = run[count] - <span class="number">1</span>, hi = k; ++lo &lt; --hi; ) &#123;</span><br><span class="line">                <span class="keyword">int</span> t = a[lo]; a[lo] = a[hi]; a[hi] = t;</span><br><span class="line">            &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123; <span class="comment">//如果一个序列中相同的值超过33，就进入改进快速排序</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> m = MAX_RUN_LENGTH; ++k &lt;= right &amp;&amp; a[k - <span class="number">1</span>] == a[k]; ) &#123;</span><br><span class="line">                <span class="keyword">if</span> (--m == <span class="number">0</span>) &#123;</span><br><span class="line">                    sort(a, left, right, <span class="keyword">true</span>);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (++count == MAX_RUN_COUNT) &#123;</span><br><span class="line">           sort(a, left, right, <span class="keyword">true</span>);</span><br><span class="line">           <span class="keyword">return</span>;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Check special cases</span></span><br><span class="line"><span class="comment">// Implementation note: variable "right" is increased by</span></span><br><span class="line"><span class="keyword">if</span> (run[count] == right++) &#123; <span class="comment">// The last run contains one element</span></span><br><span class="line">    run[++count] = right;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (count == <span class="number">1</span>) &#123; <span class="comment">// The array is already sorted</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先一个数组虽然无序中必然存在一部分升序，一部分降序，一部分相等<br>这个for循环就是对序列的一个操作<br>第一步将降序序列变成升序序列<br>而相等序列则会进行第一次检查判断，如果一个序列中相同的值超过33，就进入改进快速排序<br>接着如果这个数组分出了太多&gt;MAX_RUN_COUNT也会判断不适合归并排序</p>
+<p>这里还设置了一个哨兵，<code>run[count] == right++</code><br>如果最后一个元素单独为一个子序列，那么添加一个空序列作为哨兵</p>
+<p>接下来正式进入归并排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Determine alternation base for merge确定合并的替换基数</span></span><br><span class="line"><span class="keyword">byte</span> odd = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> n = <span class="number">1</span>; (n &lt;&lt;= <span class="number">1</span>) &lt; count; odd ^= <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Use or create temporary array b for merging</span></span><br><span class="line"><span class="keyword">int</span>[] b;                 <span class="comment">// temp array; alternates with a</span></span><br><span class="line"><span class="keyword">int</span> ao, bo;              <span class="comment">// array offsets from 'left'</span></span><br><span class="line"><span class="keyword">int</span> blen = right - left; <span class="comment">// space needed for b</span></span><br><span class="line"><span class="keyword">if</span> (work == <span class="keyword">null</span> || workLen &lt; blen || workBase + blen &gt; work.length) &#123;</span><br><span class="line">    work = <span class="keyword">new</span> <span class="keyword">int</span>[blen];</span><br><span class="line">    workBase = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (odd == <span class="number">0</span>) &#123;</span><br><span class="line">    System.arraycopy(a, left, work, workBase, blen);</span><br><span class="line">    b = a;</span><br><span class="line">    bo = <span class="number">0</span>;</span><br><span class="line">    a = work;</span><br><span class="line">    ao = workBase - left;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    b = work;</span><br><span class="line">    ao = <span class="number">0</span>;</span><br><span class="line">    bo = workBase - left;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Merging</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> last; count &gt; <span class="number">1</span>; count = last) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = (last = <span class="number">0</span>) + <span class="number">2</span>; k &lt;= count; k += <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> hi = run[k], mi = run[k - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = run[k - <span class="number">2</span>], p = i, q = mi; i &lt; hi; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (q &gt;= hi || p &lt; mi &amp;&amp; a[p + ao] &lt;= a[q + ao]) &#123;</span><br><span class="line">                b[i + bo] = a[p++ + ao];</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                b[i + bo] = a[q++ + ao];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        run[++last] = hi;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ((count &amp; <span class="number">1</span>) != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = right, lo = run[count - <span class="number">1</span>]; --i &gt;= lo;</span><br><span class="line">            b[i + bo] = a[i + ao]</span><br><span class="line">        );</span><br><span class="line">        run[++last] = right;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[] t = a; a = b; b = t;</span><br><span class="line">    <span class="keyword">int</span> o = ao; ao = bo; bo = o;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>个人理解在merging之前的一串代码是交换原数组和辅助数组<br>但是具体代码实现理解不是特别清楚</p>
+<p>这里的归并排序就是传统的归并排序，具体可视化排序参见上面提到的另一篇博客<br>最后判断时候序列如果为奇数，那么直接就复制到辅助数组</p>
+<p>终于结束了<br>以上就是我的个人的理解，可能不是很透彻<br>如果有什么错误欢迎指出</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/java/" rel="tag">java</a>, <a class="has-link-grey -link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/05/22/2019-5-22-equals%E5%92%8C==%E7%9A%84%E7%88%B1%E6%81%A8%E6%83%85%E4%BB%87/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">equals和==的爱恨情仇</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/08/2019-5-8-Arrays.sort%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81/">
+                <span class="level-item">Array.sort源码</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Daisy">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Daisy
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        inchWorld
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Wuhan</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            15
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            0
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            11
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/KDaisyers" target="_blank" rel="noopener">
+                Follow</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/KDaisyers">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.zhihu.com/people/zhong-shu-jun-65/activities" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">zhihu</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.zhihu.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/KDaisyers" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">KDaisyers</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/PC/" style="font-size: 10px;">PC</a> <a href="/tags/electron/" style="font-size: 10px;">electron</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javaScript/" style="font-size: 13.33px;">javaScript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/%E6%96%B9%E5%AF%B8/" style="font-size: 13.33px;">方寸</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 10px;">服务器</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 13.33px;">源码</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 16.67px;">笔记</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》收藏夹的使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》收藏夹的使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="C++指针与数组">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="title has-link-black-ter is-size-6 has-text-weight-normal">C++指针与数组</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》简易教务系统">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》简易教务系统</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLNnO.jpg" alt="Linux入门系列(三)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-04T16:00:00.000Z">2020-02-05</time></div>
+                    <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(三)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg" alt="Linux入门系列(二)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-31T16:00:00.000Z">2020-02-01</time></div>
+                    <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(二)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PC/">
+                        <span class="tag">PC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javaScript/">
+                        <span class="tag">javaScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%96%B9%E5%AF%B8/">
+                        <span class="tag">方寸</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                        <span class="tag">服务器</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/">
+                        <span class="tag">源码</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/">
+                        <span class="tag">笔记</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》收藏夹的使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》收藏夹的使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="C++指针与数组">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="title has-link-black-ter is-size-6 has-text-weight-normal">C++指针与数组</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》简易教务系统">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》简易教务系统</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLNnO.jpg" alt="Linux入门系列(三)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-04T16:00:00.000Z">2020-02-05</time></div>
+                    <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(三)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg" alt="Linux入门系列(二)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-31T16:00:00.000Z">2020-02-01</time></div>
+                    <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(二)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PC/">
+                        <span class="tag">PC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javaScript/">
+                        <span class="tag">javaScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%96%B9%E5%AF%B8/">
+                        <span class="tag">方寸</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                        <span class="tag">服务器</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/">
+                        <span class="tag">源码</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/">
+                        <span class="tag">笔记</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="Array.sort源码解析" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Daisy&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://yoursite.com',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

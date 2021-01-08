@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Linux入门系列(一) - Hexo</title>
+
+
+    <meta name="description" content="这个是边学习韩顺平老师的《Linux入门系列》视频教程边做的笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux入门系列(一)">
+<meta property="og:url" content="http://yoursite.com/2020/02/01/2020-2-1-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%80/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这个是边学习韩顺平老师的《Linux入门系列》视频教程边做的笔记">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s2.ax1x.com/2020/01/08/lgLJc6.jpg">
+<meta property="article:published_time" content="2020-01-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-02-05T07:37:57.880Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.ax1x.com/2020/01/08/lgLJc6.jpg">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="Linux入门系列(一)" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLJc6.jpg" alt="Linux入门系列(一)">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-01-31T16:00:00.000Z">2020-02-01</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 minutes read (About 2745 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Linux入门系列(一)
+            
+        </h1>
+        <div class="content">
+            <blockquote>
+<p>这个是边学习韩顺平老师的《Linux入门系列》视频教程边做的笔记</p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="一、入门环境搭建"><a href="#一、入门环境搭建" class="headerlink" title="一、入门环境搭建"></a>一、入门环境搭建</h3><ul>
+<li>Centos 6.5</li>
+<li>VMware Workstation 15</li>
+<li>XShell5</li>
+<li>XFtp</li>
+</ul>
+<h3 id="二、Linux目录树"><a href="#二、Linux目录树" class="headerlink" title="二、Linux目录树"></a>二、Linux目录树</h3><h4 id="1-根目录-："><a href="#1-根目录-：" class="headerlink" title="1. 根目录 ：/"></a>1. 根目录 ：/</h4><p><img src="/images/linux/tree_.png" alt="image-20200204104724974"></p>
+<h4 id="2-bin目录：-bin"><a href="#2-bin目录：-bin" class="headerlink" title="2. bin目录：/bin"></a>2. bin目录：/bin</h4><p><img src="/images/linux/tree_bin.png" alt="image-20200204103940643"></p>
+<h4 id="3-软件目录：-usr"><a href="#3-软件目录：-usr" class="headerlink" title="3. 软件目录：/usr"></a>3. 软件目录：/usr</h4><p><img src="/images/linux/tree_usr.png" alt="image-20200204110027553"></p>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/</code></td>
+<td>根目录，linux中所有文件都是从这里开始的</td>
+</tr>
+<tr>
+<td><code>/root</code></td>
+<td>root目录，即系统管理员目录；如果其他用户访问的话，一般会提示权限不足。</td>
+</tr>
+<tr>
+<td><code>/bin</code></td>
+<td>这里存放标准的Linux命令，也就是可执行的文件，平时使用的一些命令都存放在这里，像”ls”，”rm”等。具体就是当在命令行敲入”ls”时，系统就会在<code>/bin</code>目录中查找。</td>
+</tr>
+<tr>
+<td><code>/etc</code></td>
+<td>存放配置文件的地方。</td>
+</tr>
+<tr>
+<td><code>/dev</code></td>
+<td>存放与设备相关的文件，在Linux的世界里外设也是文件。</td>
+</tr>
+<tr>
+<td><code>/home</code></td>
+<td>家目录，当创建一个用户后，就会在<code>/home</code>文件下创建一个和用户名同名的目录。</td>
+</tr>
+<tr>
+<td><code>/tmp</code></td>
+<td>临时文件存放的地方，系统重启后里面的文件就会被清理。</td>
+</tr>
+<tr>
+<td><code>/usr</code></td>
+<td>默认软件会存放在这个目录下，包含绝大数的用户工具和应用程序。/usr/bin用于存放程序；<code>/usr/share</code>用于存放共享数据。</td>
+</tr>
+<tr>
+<td><code>/usr/local</code></td>
+<td>相当于 Programe Files。</td>
+</tr>
+<tr>
+<td><code>/opt</code></td>
+<td>存放可选的程序，比如测试版的fixfox。</td>
+</tr>
+<tr>
+<td><code>/media</code></td>
+<td>挂载usb接口下的U盘、CD/DVD驱动器等。</td>
+</tr>
+<tr>
+<td><code>/boot</code></td>
+<td>Linux内核及引导系统程序所需的文件目录</td>
+</tr>
+<tr>
+<td><code>/lost+found</code></td>
+<td>一旦机器意外关机或者崩溃，就会把一些文件碎片存放在这里，下一次启动就会检查这里，并修复已经损坏的文件系统。</td>
+</tr>
+<tr>
+<td><code>/mnt</code></td>
+<td>存放挂载储存设备的挂载目录。</td>
+</tr>
+<tr>
+<td><code>/var</code></td>
+<td>这个目录的内容是经常变动的，<code>/var</code>下有<code>/var/log</code>这是用来存放系统日志的目录。<code>/var/www</code>目录是定义Apache服务器站点存放目录；<code>/var/lib</code> 用来存放一些库文件。</td>
+</tr>
+<tr>
+<td><code>/sbin</code></td>
+<td>系统管理的命令的存放，是超级权限用户root的可执行命令存放地，普通用户无权限执行这个目录下的命令，这个目录和<code>/usr/sbin</code>、 <code>/usr/X11R6/sbin</code>或<code>/usr/local/sbin</code>目录是相似的。</td>
+</tr>
+</tbody></table>
+<p>参考链接</p>
+<ol>
+<li><a href="https://www.cnblogs.com/shaosks/p/9178157.html">Linux CentOS7 系统目录详解https://www.cnblogs.com/shaosks/p/9178157.html</a></li>
+<li><a href="https://blog.51cto.com/yangshufan/1945981">linux系统目录树详解https://blog.51cto.com/yangshufan/1945981</a></li>
+<li><a href="https://blog.51cto.com/mystery888/1835223">linux下面/usr/local和opt目录有何区别https://blog.51cto.com/mystery888/1835223</a></li>
+</ol>
+<h3 id="三、常用命令"><a href="#三、常用命令" class="headerlink" title="三、常用命令"></a>三、常用命令</h3><h4 id="1-用户相关命令"><a href="#1-用户相关命令" class="headerlink" title="1. 用户相关命令"></a>1. 用户相关命令</h4><p>包括创建用户、删除用户、用户组、更改密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># root用户下</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建用户 </span></span><br><span class="line"><span class="comment"># 此时用户默认是在与用户同名的组中</span></span><br><span class="line">$ useradd tom</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建组</span></span><br><span class="line">$ groupadd ball</span><br><span class="line">$ groupadd swimming</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建指定组的用户</span></span><br><span class="line">$ useradd -g ball jam</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看用户所在的组</span></span><br><span class="line">$ id tom</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改组</span></span><br><span class="line"><span class="comment"># 此时jam就从ball组去了swimming组</span></span><br><span class="line">$ usermod -g swimming jam</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除用户但是不删除/home下的目录</span></span><br><span class="line">$ userdel tom</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除用户并且删除家目录</span></span><br><span class="line">$ userdel -r tom</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改密码</span></span><br><span class="line"><span class="comment"># root用户下需要指定更改哪个用户</span></span><br><span class="line">$ passwd tom</span><br><span class="line"></span><br><span class="line"><span class="comment"># tom用户下</span></span><br><span class="line">$ passwd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切换用户</span></span><br><span class="line">$ su root</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退回上一个用户</span></span><br><span class="line">$ <span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 登出</span></span><br><span class="line">$ <span class="built_in">logout</span></span><br></pre></td></tr></table></figure>
+
+<p>关于用户和用户组组以及家的概念，用户组的意义在于系统可以对一个用户组中的所有用户进行集中管理</p>
+<p>具体的关于组的概念在《Linux入门系列(二)》中会有介绍</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用户所在的文件</span></span><br><span class="line">$ vim /etc/passwd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户组所在文件</span></span><br><span class="line">$ vim /etc/group</span><br><span class="line"></span><br><span class="line"><span class="comment"># 口令所在的文件 =&gt; 用户密码和登录信息</span></span><br><span class="line">$ vim /etc/shadow</span><br></pre></td></tr></table></figure>
+
+<h5 id="（1）-用户-etc-passwd"><a href="#（1）-用户-etc-passwd" class="headerlink" title="（1） 用户: /etc/passwd"></a>（1） 用户: /etc/passwd</h5><p><img src="/images/linux/user_etc_passwd.png" alt="image-20200204114047249"></p>
+<h5 id="（2）-用户组-etc-group"><a href="#（2）-用户组-etc-group" class="headerlink" title="（2） 用户组 /etc/group"></a>（2） 用户组 /etc/group</h5><p><img src="/images/linux/group_etc_group.png" alt="image-20200204114552366"></p>
+<h5 id="（3）-口令-etc-shadow"><a href="#（3）-口令-etc-shadow" class="headerlink" title="（3） 口令 /etc/shadow"></a>（3） 口令 /etc/shadow</h5><p><img src="/images/linux/home_etc_shadow.png" alt="image-20200204114852153"></p>
+<h4 id="2-Vim-Vi-相关命令"><a href="#2-Vim-Vi-相关命令" class="headerlink" title="2. Vim/Vi 相关命令"></a>2. Vim/Vi 相关命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 正常模式</span></span><br><span class="line"><span class="comment"># 可使用快捷键</span></span><br><span class="line"><span class="comment"># G =&gt; 内容末端</span></span><br><span class="line"><span class="comment"># gg =&gt; 内容首端</span></span><br><span class="line"><span class="comment"># e =&gt; 前移一个单词</span></span><br><span class="line"><span class="comment"># b =&gt; 后移一个单词</span></span><br><span class="line"><span class="comment"># n + shift + g  =&gt;  n是数字，表示移动到第n行</span></span><br><span class="line"><span class="comment"># yy =&gt; 拷贝当前行</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 插入模式</span></span><br><span class="line"><span class="comment"># i/a/o  =&gt;  进入插入模式</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 可视模式</span></span><br><span class="line"><span class="comment"># set nu  =&gt;  显示行号</span></span><br><span class="line"><span class="comment"># set nonu =&gt; 隐藏行号</span></span><br></pre></td></tr></table></figure>
+
+<p>参考链接</p>
+<p><a href="https://linux.cn/article-8144-1.html">Vim大全https://linux.cn/article-8144-1.html </a></p>
+<h4 id="3-日常使用相关命令"><a href="#3-日常使用相关命令" class="headerlink" title="3. 日常使用相关命令"></a>3. 日常使用相关命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 帮助指令</span></span><br><span class="line"><span class="comment"># man [命令或配置文件]</span></span><br><span class="line">$ man ls</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">$ reboot</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关机</span></span><br><span class="line"><span class="comment"># 立刻关机</span></span><br><span class="line">$ shutdown -h now</span><br><span class="line">$ halt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定时关机</span></span><br><span class="line"><span class="comment"># 十分钟后关机</span></span><br><span class="line">$ shutdown -h 10</span><br><span class="line"></span><br><span class="line"><span class="comment"># shutdown 关机安全的将系统关机</span></span><br><span class="line"><span class="comment"># halt 执行sync系统调用，文件系统操作完后就会停止内核</span></span><br><span class="line"><span class="comment"># sync 是将内存中的文件保存在磁盘</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-运行级别相关指令"><a href="#4-运行级别相关指令" class="headerlink" title="4. 运行级别相关指令"></a>4. 运行级别相关指令</h4><p><strong>运行级别说明</strong>：</p>
+<ul>
+<li><input disabled="" type="checkbox"> 0：关机</li>
+<li><input disabled="" type="checkbox"> 1：单用户【找回丢失密码】</li>
+<li><input disabled="" type="checkbox"> 2：多用户状态没有网络服务</li>
+<li><input disabled="" type="checkbox"> 3：多用户状态有网络服务</li>
+<li><input disabled="" type="checkbox"> 4：系统未使用保留给用户</li>
+<li><input disabled="" type="checkbox"> 5：图形界面</li>
+<li><input disabled="" type="checkbox"> 6：系统重启</li>
+</ul>
+<p>常用运行级别是3和5，要修改默认的运行级别在 <code>/etc/inittab</code>的<code>id:5:initdefault</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 切换到指定运行级别</span></span><br><span class="line"><span class="comment"># init [012356]</span></span><br><span class="line">$ init 3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 忘记root密码，找回</span></span><br><span class="line"><span class="comment"># 开机 =&gt; 在引导的时输入回车键 =&gt; 看到一个界面后输入 e =&gt; 看到一个新的界面，选中第二行(编辑内核),再输入 e =&gt; 在这行最后输入 1 ，再输入 回车键 =&gt; 再次输入 b ,这时就进入单用户模式</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="（1）运行级别：-etc-inittab"><a href="#（1）运行级别：-etc-inittab" class="headerlink" title="（1）运行级别：/etc/inittab"></a>（1）运行级别：/etc/inittab</h5><p><img src="/images/linux/init_etc_inittab.png" alt="image-20200204122614114"></p>
+<h4 id="5-文件目录相关指令"><a href="#5-文件目录相关指令" class="headerlink" title="5. 文件目录相关指令"></a>5. 文件目录相关指令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示工作空间</span></span><br><span class="line">$ <span class="built_in">pwd</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示目录列表</span></span><br><span class="line"><span class="comment"># ls [选项] [目录或文件]</span></span><br><span class="line"><span class="comment"># -a 显示所有文件和目录，包括隐藏文件</span></span><br><span class="line"><span class="comment"># -l 列表的形式显示信息</span></span><br><span class="line">$ ls</span><br><span class="line">$ ll</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切换目录</span></span><br><span class="line"><span class="comment"># cd [目录路径]</span></span><br><span class="line">$ <span class="built_in">cd</span> /etc/</span><br><span class="line"><span class="comment"># 回到上一级</span></span><br><span class="line">$ <span class="built_in">cd</span> ..</span><br><span class="line"><span class="comment"># 回到家目录</span></span><br><span class="line">$ <span class="built_in">cd</span> ~</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建目录</span></span><br><span class="line"><span class="comment"># mkdir [要创建的目录]</span></span><br><span class="line">$ mkdir /home/animal</span><br><span class="line"><span class="comment"># 创建多级目录</span></span><br><span class="line">$ mkdir -p /home/animal/dog</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除空目录</span></span><br><span class="line">$ rmdir /home/animal/dog</span><br><span class="line"><span class="comment"># 删除非空目录</span></span><br><span class="line">$ rm -rf /home/animal</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建空文件</span></span><br><span class="line">$ touch a.txt</span><br><span class="line">$ touch a.txt b.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拷贝指令</span></span><br><span class="line"><span class="comment"># cp [选项] 源 目的</span></span><br><span class="line"><span class="comment"># 将a.txt拷贝到当前目录下的dir文件目录中去</span></span><br><span class="line">$ cp a.txt dir/</span><br><span class="line"><span class="comment"># -r 递归复制整个文件夹</span></span><br><span class="line"><span class="comment"># 将dir1整个目录拷贝到dir2中去</span></span><br><span class="line">$ cp -r dir1/ dir2/</span><br><span class="line"><span class="comment"># \ 强制覆盖</span></span><br><span class="line">$ \cp -r dir1/ dir2/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 移除文件或目录</span></span><br><span class="line"><span class="comment"># rm [选项] 要删除的文件或目录</span></span><br><span class="line"><span class="comment"># -r 递归删除整个文件夹</span></span><br><span class="line"><span class="comment"># -f 强制删除不提示</span></span><br><span class="line">$ rm -rf /</span><br><span class="line"></span><br><span class="line"><span class="comment"># 移动文件与目录或重命名</span></span><br><span class="line"><span class="comment"># 重命名 =&gt; 带上了文件</span></span><br><span class="line">$ mv a.txt b.txt</span><br><span class="line"><span class="comment"># 移动</span></span><br><span class="line"><span class="comment"># 将当前目录下的a.txt移动到/home/text</span></span><br><span class="line">$ mv a.txt /home/text</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看文件内容</span></span><br><span class="line"><span class="comment"># cat 只能浏览不能修改</span></span><br><span class="line"><span class="comment"># cat [选项] 要查看的文件</span></span><br><span class="line"><span class="comment"># -n 显示行号</span></span><br><span class="line">$ cat a.txt</span><br><span class="line"><span class="comment"># 配合管道指令使用,实现分页 | more</span></span><br><span class="line">$ cat -n a.txt | more</span><br><span class="line"></span><br><span class="line"><span class="comment"># more 指令</span></span><br><span class="line"><span class="comment"># enter =&gt; 向下翻一行</span></span><br><span class="line"><span class="comment"># space =&gt; 向下翻一页</span></span><br><span class="line"><span class="comment"># q =&gt; 离开more，不再显示文件内容</span></span><br><span class="line">$ more a.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># less 指令</span></span><br><span class="line"><span class="comment"># 功能和more类似，但是加载的时候不是一次性全部加载进来，因此看大型文件效率更高</span></span><br><span class="line">$ less a.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># &gt;指令 和 &gt;&gt;指令</span></span><br><span class="line"><span class="comment"># 将列表的内容写入a.txt中</span></span><br><span class="line">$ ls -l &gt; a.txt</span><br><span class="line"><span class="comment"># 将列表的内容追加到a.txt中</span></span><br><span class="line">$ ls -l &gt;&gt; a.txt</span><br><span class="line"><span class="comment"># 将文件a.txt内容覆盖b.txt</span></span><br><span class="line">$ cat a.txt &gt; b.txt</span><br><span class="line"><span class="comment"># 将一段内容追加到a.txt</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"hello world"</span> a.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># echo指令 和 head指令 以及 tail指令</span></span><br><span class="line"><span class="comment"># echo 将内容输出到控制台</span></span><br><span class="line"><span class="comment"># 打印环境变量</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="variable">$PATH</span></span><br><span class="line"><span class="comment"># head 显示文件的开头部分，默认是前10行</span></span><br><span class="line">$ head a.txt</span><br><span class="line"><span class="comment"># 显示前5行</span></span><br><span class="line">$ head -n 5 a.txt</span><br><span class="line"><span class="comment"># tail 输出文件尾部部分，默认是后10行</span></span><br><span class="line"><span class="comment"># 用法和head一样</span></span><br><span class="line"><span class="comment"># 追踪文档的所有更新</span></span><br><span class="line">$ tail -f a.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建软链接</span></span><br><span class="line"><span class="comment"># ln -s [原文件或目录] [软链接名]</span></span><br><span class="line">$ ln -s /root linkToRoot</span><br><span class="line"><span class="comment"># 删除软链接</span></span><br><span class="line">$ rm -rf linkToRoot</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看已经执行过历史命令</span></span><br><span class="line">$ <span class="built_in">history</span></span><br><span class="line"><span class="comment"># 查看最后10条历史命令</span></span><br><span class="line">$ <span class="built_in">history</span> 10</span><br><span class="line"><span class="comment"># 执行历史命令中的第100条命令</span></span><br><span class="line">$ !100</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-时间日期相关指令"><a href="#6-时间日期相关指令" class="headerlink" title="6. 时间日期相关指令"></a>6. 时间日期相关指令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示当前日期</span></span><br><span class="line">$ date</span><br><span class="line"><span class="comment"># 显示当前年份</span></span><br><span class="line">$ date +<span class="variable">$Y</span></span><br><span class="line"><span class="comment"># 显示当前月份</span></span><br><span class="line">$ date +<span class="variable">$m</span></span><br><span class="line"><span class="comment"># 显示当前是哪一天</span></span><br><span class="line">$ date+<span class="variable">$d</span></span><br><span class="line"><span class="comment"># 显示年月日时分秒</span></span><br><span class="line">$ date <span class="string">"+%Y-%d %H:%M:%S"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置日期</span></span><br><span class="line">$ date -s 字符串时间</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看日历的指令</span></span><br><span class="line"><span class="comment"># cal [选项]</span></span><br><span class="line">$ cal</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-搜索查找相关指令"><a href="#7-搜索查找相关指令" class="headerlink" title="7. 搜索查找相关指令"></a>7. 搜索查找相关指令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># find 指令</span></span><br><span class="line"><span class="comment"># 从指定目录向下递归地遍历其各个子目录，将满足条件的文件或目录显示在终端</span></span><br><span class="line"><span class="comment"># find [搜索范围] [选项]</span></span><br><span class="line"><span class="comment"># -name 按照指定的文件名查找模式查找文件</span></span><br><span class="line"><span class="comment"># -user 查找属于指定用户名所有文件</span></span><br><span class="line"><span class="comment"># -size 按照指定的文件大小查找文件</span></span><br><span class="line"><span class="comment"># 查找/home目录下的名字为a.txt的文件</span></span><br><span class="line">$ find /home -name a.txt</span><br><span class="line"><span class="comment"># 查找/opt目录下的root用户的文件</span></span><br><span class="line">$ find /opt -user root</span><br><span class="line"><span class="comment"># 查找根目录下大小大于30M的文件</span></span><br><span class="line">$ find / -size +30M</span><br><span class="line"></span><br><span class="line"><span class="comment"># locate 指令</span></span><br><span class="line"><span class="comment"># locate指令可以快速定位文件路径，locate指令利用事先建立的系统中所有文件名称及路径的locate数据库实现快速定位给定的文件，locate指令无需遍历整个文件系统，查询速度快。</span></span><br><span class="line"><span class="comment"># 首先更新数据库</span></span><br><span class="line">$ updatedb</span><br><span class="line"><span class="comment"># 查询a.txt</span></span><br><span class="line">$ locate a.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># grep指令 和 管道符号 |</span></span><br><span class="line"><span class="comment"># grep 过滤查找， "|" 表示将前一个命令的处理结果输出传递到后面的命令处理</span></span><br><span class="line"><span class="comment"># grep [选项] 查找内容 源文件</span></span><br><span class="line"><span class="comment"># -n 显示匹配行及行号</span></span><br><span class="line"><span class="comment"># -i 忽略字母大小写</span></span><br><span class="line">$ grep -<span class="keyword">in</span> public Hello.java</span><br><span class="line">$ cat Hello.java | grep -<span class="keyword">in</span> public</span><br></pre></td></tr></table></figure>
+
+<h4 id="8-压缩-解压缩相关指令"><a href="#8-压缩-解压缩相关指令" class="headerlink" title="8. 压缩/解压缩相关指令"></a>8. 压缩/解压缩相关指令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># gzip/gunzip 指令</span></span><br><span class="line"><span class="comment"># gzip 用于压缩文件; gunzip 用于解压缩文件</span></span><br><span class="line"><span class="comment"># gzip 文件  =&gt;  压缩文件，只能将文件压缩为 *.gz</span></span><br><span class="line"><span class="comment"># gunzip 文件.gz  =&gt;  解压缩文件命令</span></span><br><span class="line"><span class="comment"># 使用gzip压缩文件后，不会保留原来的文件</span></span><br><span class="line">$ gzip a.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># zip/unzip 指令</span></span><br><span class="line"><span class="comment"># zip [选项] xxx.zip 要压缩的内容  =&gt; 压缩文件和目录的命令</span></span><br><span class="line"><span class="comment"># unzip [选项] xxx.zip  =&gt;  解压缩文件</span></span><br><span class="line"><span class="comment"># zip 选项  -r 递归压缩，即压缩目录</span></span><br><span class="line"><span class="comment"># unzip 选项  -d[目录] 指定解压后文件的存放目录</span></span><br><span class="line"><span class="comment"># 将 /home 下的所有文件进行压缩成 my.zip</span></span><br><span class="line">$ zip -r my.zip /home</span><br><span class="line"><span class="comment"># 将 my.zip 解压到 /opt/tmp 目录下</span></span><br><span class="line">$ unzip -d /opt/tmp/ my.zip</span><br><span class="line"></span><br><span class="line"><span class="comment"># tar 指令</span></span><br><span class="line"><span class="comment"># tar指令是打包指令 *.tar.gz</span></span><br><span class="line"><span class="comment"># tar [选项] xxx.tar.gz 打包的内容   =&gt;  打包文件、目录</span></span><br><span class="line"><span class="comment"># -c 产生tar打包文件</span></span><br><span class="line"><span class="comment"># -v 显示详细信息</span></span><br><span class="line"><span class="comment"># -f 指定压缩后的文件名</span></span><br><span class="line"><span class="comment"># -z 打包同时压缩</span></span><br><span class="line"><span class="comment"># -x 解压tar文件</span></span><br><span class="line"><span class="comment"># 将a.txt b.txt 压缩为c.tar.gz</span></span><br><span class="line">$ tar -zcvf c.tar.gz a.txt b.txt</span><br><span class="line"><span class="comment"># 将 c.tar.gz 解压</span></span><br><span class="line">$ tar -zxvf c.tar.gz</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Linux/" rel="tag">Linux</a>, <a class="has-link-grey -link" href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag">笔记</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Linux入门系列(二)</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/01/14/2020-1-14-%E6%97%A9%E6%8A%A5%E7%94%9F%E6%88%90%E5%99%A8/">
+                <span class="level-item">《早报生成器》MPGenerator</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Daisy">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Daisy
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        inchWorld
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Wuhan</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            15
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            0
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            11
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/KDaisyers" target="_blank" rel="noopener">
+                Follow</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/KDaisyers">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.zhihu.com/people/zhong-shu-jun-65/activities" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">zhihu</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.zhihu.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/KDaisyers" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">KDaisyers</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/PC/" style="font-size: 10px;">PC</a> <a href="/tags/electron/" style="font-size: 10px;">electron</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javaScript/" style="font-size: 13.33px;">javaScript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/%E6%96%B9%E5%AF%B8/" style="font-size: 13.33px;">方寸</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 10px;">服务器</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 13.33px;">源码</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 16.67px;">笔记</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》收藏夹的使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》收藏夹的使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="C++指针与数组">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="title has-link-black-ter is-size-6 has-text-weight-normal">C++指针与数组</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》简易教务系统">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》简易教务系统</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLNnO.jpg" alt="Linux入门系列(三)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-04T16:00:00.000Z">2020-02-05</time></div>
+                    <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(三)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg" alt="Linux入门系列(二)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-31T16:00:00.000Z">2020-02-01</time></div>
+                    <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(二)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PC/">
+                        <span class="tag">PC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javaScript/">
+                        <span class="tag">javaScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%96%B9%E5%AF%B8/">
+                        <span class="tag">方寸</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                        <span class="tag">服务器</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/">
+                        <span class="tag">源码</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/">
+                        <span class="tag">笔记</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》收藏夹的使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》收藏夹的使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="C++指针与数组">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="title has-link-black-ter is-size-6 has-text-weight-normal">C++指针与数组</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》简易教务系统">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》简易教务系统</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLNnO.jpg" alt="Linux入门系列(三)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-04T16:00:00.000Z">2020-02-05</time></div>
+                    <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(三)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg" alt="Linux入门系列(二)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-31T16:00:00.000Z">2020-02-01</time></div>
+                    <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(二)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PC/">
+                        <span class="tag">PC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javaScript/">
+                        <span class="tag">javaScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%96%B9%E5%AF%B8/">
+                        <span class="tag">方寸</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                        <span class="tag">服务器</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/">
+                        <span class="tag">源码</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/">
+                        <span class="tag">笔记</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="Linux入门系列(一)" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Daisy&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://yoursite.com',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

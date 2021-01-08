@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Array.sort源码 - Hexo</title>
+
+
+    <meta name="description" content="对Arrays.sort的一些浅显看法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Array.sort源码">
+<meta property="og:url" content="http://yoursite.com/2019/05/08/2019-5-8-Arrays.sort%E5%BA%95%E5%B1%82%E6%BA%90%E7%A0%81/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="对Arrays.sort的一些浅显看法">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s2.ax1x.com/2020/01/08/lgLJc6.jpg">
+<meta property="article:published_time" content="2019-05-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-01-08T07:34:13.163Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="源码">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.ax1x.com/2020/01/08/lgLJc6.jpg">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="Array.sort源码" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLJc6.jpg" alt="Array.sort源码">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-07T16:00:00.000Z">2019-05-08</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 minutes read (About 861 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Array.sort源码
+            
+        </h1>
+        <div class="content">
+            <blockquote>
+<p>对Arrays.sort的一些浅显看法</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="Arrays-sort"><a href="#Arrays-sort" class="headerlink" title="Arrays.sort"></a>Arrays.sort</h1><p>首先编写一个程序，使用到Arrays.sort</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">sort</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">int</span> [] a = &#123;<span class="number">3</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">11</span>,<span class="number">2</span>&#125;;</span><br><span class="line">		Arrays.sort(a);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</span><br><span class="line">        	System.out.println(a[i]);</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>点击sort进入jdk1.8源码中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] a)</span> </span>&#123;</span><br><span class="line">       DualPivotQuicksort.sort(a, <span class="number">0</span>, a.length - <span class="number">1</span>, <span class="keyword">null</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>点击进入DualPivotQuicksort,可以看到一些阀值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The maximum number of runs in merge sort.</span></span><br><span class="line"><span class="comment"> *  归并排序中的最大运行次数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_RUN_COUNT = <span class="number">67</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The maximum length of run in merge sort.</span></span><br><span class="line"><span class="comment"> * 归并排序中运行的最大长度</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_RUN_LENGTH = <span class="number">33</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * If the length of an array to be sorted is less than this</span></span><br><span class="line"><span class="comment"> * constant, Quicksort is used in preference to merge sort.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> QUICKSORT_THRESHOLD = <span class="number">286</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * If the length of an array to be sorted is less than this</span></span><br><span class="line"><span class="comment"> * constant, insertion sort is used in preference to Quicksort.</span></span><br><span class="line"><span class="comment"> * 如果要排序的数组的长度小于这个常量，快速排序优先用于合并排序</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> INSERTION_SORT_THRESHOLD = <span class="number">47</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * If the length of a byte array to be sorted is greater than this</span></span><br><span class="line"><span class="comment"> * constant, counting sort is used in preference to insertion sort.</span></span><br><span class="line"><span class="comment"> * 如果要排序的数组的长度小于这个常量，插入排序优先于快速排序</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> COUNTING_SORT_THRESHOLD_FOR_BYTE = <span class="number">29</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * If the length of a short or char array to be sorted is greater</span></span><br><span class="line"><span class="comment"> * than this constant, counting sort is used in preference to Quicksort.</span></span><br><span class="line"><span class="comment"> * 如果要排序的字节数组的长度大于此值常量，计数排序优先于插入排序</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> COUNTING_SORT_THRESHOLD_FOR_SHORT_OR_CHAR = <span class="number">3200</span>;</span><br></pre></td></tr></table></figure>
+
+<p>点击sort可以看到，似乎好像看到了第一个阀值QUICKSORT_THRESHOLD，快速排序<br>（先不看代码，继续往下走）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> left, <span class="keyword">int</span> right,</span></span></span><br><span class="line"><span class="function"><span class="params">                     <span class="keyword">int</span>[] work, <span class="keyword">int</span> workBase, <span class="keyword">int</span> workLen)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Use Quicksort on small arrays</span></span><br><span class="line">    <span class="keyword">if</span> (right - left &lt; QUICKSORT_THRESHOLD) &#123; <span class="comment">// QUICKSORT_THRESHOLD = 286</span></span><br><span class="line">        sort(a, left, right, <span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Index run[i] is the start of i-th run</span></span><br><span class="line"><span class="comment">     * (ascending or descending sequence).</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span>[] run = <span class="keyword">new</span> <span class="keyword">int</span>[MAX_RUN_COUNT + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>; run[<span class="number">0</span>] = left;</span><br></pre></td></tr></table></figure>
+
+<p>难道right-left &lt; 286 都会是快速排序吗?<br>暂时先不看这个方法，找到sort继续点击</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> left, <span class="keyword">int</span> right, <span class="keyword">boolean</span> leftmost)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> length = right - left + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Use insertion sort on tiny arrays</span></span><br><span class="line">  <span class="keyword">if</span> (length &lt; INSERTION_SORT_THRESHOLD) &#123;</span><br><span class="line">      <span class="keyword">if</span> (leftmost) &#123;</span><br><span class="line">          <span class="comment">/*</span></span><br><span class="line"><span class="comment">           * Traditional (without sentinel) insertion sort,</span></span><br><span class="line"><span class="comment">           * optimized for server VM, is used in case of</span></span><br><span class="line"><span class="comment">           * the leftmost part.</span></span><br><span class="line"><span class="comment">           */</span></span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">int</span> i = left, j = i; i &lt; right; j = ++i) &#123;</span><br><span class="line">              <span class="keyword">int</span> ai = a[i + <span class="number">1</span>];</span><br><span class="line">              <span class="keyword">while</span> (ai &lt; a[j]) &#123;</span><br><span class="line">                  a[j + <span class="number">1</span>] = a[j];</span><br><span class="line">                  <span class="keyword">if</span> (j-- == left) &#123;</span><br><span class="line">                      <span class="keyword">break</span>;</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">              a[j + <span class="number">1</span>] = ai;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">/*</span></span><br><span class="line"><span class="comment">           * Skip the longest ascending sequence.</span></span><br><span class="line"><span class="comment">           */</span></span><br><span class="line">          <span class="keyword">do</span> &#123;</span><br><span class="line">              <span class="keyword">if</span> (left &gt;= right) &#123;</span><br><span class="line">                  <span class="keyword">return</span>;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125; <span class="keyword">while</span> (a[++left] &gt;= a[left - <span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">          <span class="comment">/*</span></span><br><span class="line"><span class="comment">           * Every element from adjoining part plays the role</span></span><br><span class="line"><span class="comment">           * of sentinel, therefore this allows us to avoid the</span></span><br><span class="line"><span class="comment">           * left range check on each iteration. Moreover, we use</span></span><br><span class="line"><span class="comment">           * the more optimized algorithm, so called pair insertion</span></span><br><span class="line"><span class="comment">           * sort, which is faster (in the context of Quicksort)</span></span><br><span class="line"><span class="comment">           * than traditional implementation of insertion sort.</span></span><br><span class="line"><span class="comment">           */</span></span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">int</span> k = left; ++left &lt;= right; k = ++left) &#123;</span><br><span class="line">              <span class="keyword">int</span> a1 = a[k], a2 = a[left];</span><br><span class="line"></span><br><span class="line">              <span class="keyword">if</span> (a1 &lt; a2) &#123;</span><br><span class="line">                  a2 = a1; a1 = a[left];</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">while</span> (a1 &lt; a[--k]) &#123;</span><br><span class="line">                  a[k + <span class="number">2</span>] = a[k];</span><br><span class="line">              &#125;</span><br><span class="line">              a[++k + <span class="number">1</span>] = a1;</span><br><span class="line"></span><br><span class="line">              <span class="keyword">while</span> (a2 &lt; a[--k]) &#123;</span><br><span class="line">                  a[k + <span class="number">1</span>] = a[k];</span><br><span class="line">              &#125;</span><br><span class="line">              a[k + <span class="number">1</span>] = a2;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">int</span> last = a[right];</span><br><span class="line"></span><br><span class="line">          <span class="keyword">while</span> (last &lt; a[--right]) &#123;</span><br><span class="line">              a[right + <span class="number">1</span>] = a[right];</span><br><span class="line">          &#125;</span><br><span class="line">          a[right + <span class="number">1</span>] = last;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>看到这发现了阀值INSERTION_SORT_THRESHOLD=47插入排序，注释解释道如果数组长度小于这个值，插入排序优于快速排序<br>插入排序改进为直接插入排序和双插入排序（具体分析下一篇博客会讲）<br>这里涉及到了时间复杂度和空间复杂度<br>后面我会列出各个算法的复杂度比较</p>
+<p>那么插入排序是什么样子的呢？<br><img src="https://upload-images.jianshu.io/upload_images/9175374-fec991caa60aa10d.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/811/format/webp" alt="插入排序"></p>
+<p>当然大于阀值INSERTION_SORT_THRESHOLD就需要快速排序了<br>快速排序代码非常的多，称为“DualPivotQuicksort”排序算法，就是双枢轴快速排序<br>（具体分析下一篇博客会讲）<br><img src="https://upload-images.jianshu.io/upload_images/9175374-a047775f1c22e6ee.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/811/format/webp" alt="快速排序"></p>
+<p>最后看一下如果都不满足这些阀值，会怎么样？<br>如果大于阀值QUICKSORT_THRESHOLD，会进行是否适合归并排序的判断</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Check if the array is nearly sorted</span></span><br><span class="line"><span class="comment">// 检查具不具备</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> k = left; k &lt; right; run[count] = k) &#123;</span><br><span class="line">    <span class="keyword">if</span> (a[k] &lt; a[k + <span class="number">1</span>]) &#123; <span class="comment">// ascending</span></span><br><span class="line">        <span class="keyword">while</span> (++k &lt;= right &amp;&amp; a[k - <span class="number">1</span>] &lt;= a[k]);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (a[k] &gt; a[k + <span class="number">1</span>]) &#123; <span class="comment">// descending</span></span><br><span class="line">        <span class="keyword">while</span> (++k &lt;= right &amp;&amp; a[k - <span class="number">1</span>] &gt;= a[k]);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> lo = run[count] - <span class="number">1</span>, hi = k; ++lo &lt; --hi; ) &#123;</span><br><span class="line">            <span class="keyword">int</span> t = a[lo]; a[lo] = a[hi]; a[hi] = t;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; <span class="comment">// equal</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> m = MAX_RUN_LENGTH; ++k &lt;= right &amp;&amp; a[k - <span class="number">1</span>] == a[k]; ) &#123;</span><br><span class="line">            <span class="keyword">if</span> (--m == <span class="number">0</span>) &#123;</span><br><span class="line">                sort(a, left, right, <span class="keyword">true</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * The array is not highly structured,</span></span><br><span class="line"><span class="comment">     * use Quicksort instead of merge sort.</span></span><br><span class="line"><span class="comment">     * 数组不是高度结构化的，使用快速排序代替归并排序</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">if</span> (++count == MAX_RUN_COUNT) &#123;</span><br><span class="line">        sort(a, left, right, <span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Check special cases</span></span><br><span class="line"><span class="comment">// Implementation note: variable "right" is increased by 1.</span></span><br><span class="line"><span class="keyword">if</span> (run[count] == right++) &#123; <span class="comment">// The last run contains one element</span></span><br><span class="line">    run[++count] = right;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (count == <span class="number">1</span>) &#123; <span class="comment">// The array is already sorted</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果数组的有序化程度合适，将每个单调的序列都存入数组，该数组的长度如果&lt;MAX_RUN_COUNT<br>则进行归并排序，否则依然是双枢轴快速排序<br><img src="https://upload-images.jianshu.io/upload_images/9175374-7e2639f6dd669c86.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/811/format/webp" alt="归并排序"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Determine alternation base for merge</span></span><br><span class="line"><span class="keyword">byte</span> odd = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> n = <span class="number">1</span>; (n &lt;&lt;= <span class="number">1</span>) &lt; count; odd ^= <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Use or create temporary array b for merging</span></span><br><span class="line"><span class="keyword">int</span>[] b;                 <span class="comment">// temp array; alternates with a</span></span><br><span class="line"><span class="keyword">int</span> ao, bo;              <span class="comment">// array offsets from 'left'</span></span><br><span class="line"><span class="keyword">int</span> blen = right - left; <span class="comment">// space needed for b</span></span><br><span class="line"><span class="keyword">if</span> (work == <span class="keyword">null</span> || workLen &lt; blen || workBase + blen &gt; work.length) &#123;</span><br><span class="line">      work = <span class="keyword">new</span> <span class="keyword">int</span>[blen];</span><br><span class="line">      workBase = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (odd == <span class="number">0</span>) &#123;</span><br><span class="line">      System.arraycopy(a, left, work, workBase, blen);</span><br><span class="line">      b = a;</span><br><span class="line">      bo = <span class="number">0</span>;</span><br><span class="line">      a = work;</span><br><span class="line">      ao = workBase - left;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      b = work;</span><br><span class="line">      ao = <span class="number">0</span>;</span><br><span class="line">      bo = workBase - left;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Merging</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> last; count &gt; <span class="number">1</span>; count = last) &#123;</span><br><span class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> k = (last = <span class="number">0</span>) + <span class="number">2</span>; k &lt;= count; k += <span class="number">2</span>) &#123;</span><br><span class="line">          <span class="keyword">int</span> hi = run[k], mi = run[k - <span class="number">1</span>];</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">int</span> i = run[k - <span class="number">2</span>], p = i, q = mi; i &lt; hi; ++i) &#123;</span><br><span class="line">              <span class="keyword">if</span> (q &gt;= hi || p &lt; mi &amp;&amp; a[p + ao] &lt;= a[q + ao]) &#123;</span><br><span class="line">                  b[i + bo] = a[p++ + ao];</span><br><span class="line">              &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                  b[i + bo] = a[q++ + ao];</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">          run[++last] = hi;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> ((count &amp; <span class="number">1</span>) != <span class="number">0</span>) &#123;</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">int</span> i = right, lo = run[count - <span class="number">1</span>]; --i &gt;= lo;</span><br><span class="line">                b[i + bo] = a[i + ao]</span><br><span class="line">          );</span><br><span class="line">          run[++last] = right;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">int</span>[] t = a; a = b; b = t;</span><br><span class="line">     <span class="keyword">int</span> o = ao; ao = bo; bo = o;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>归并排序涉及两个数组，一开始初始化的时候是确认谁是原数组，谁是归并后子序列数组<br>接着进行二路归并排序<br>最后交换数组（具体分析会在下一个博客详解）</p>
+<h2 id="PS各排序比较"><a href="#PS各排序比较" class="headerlink" title="PS各排序比较"></a>PS各排序比较</h2><p><img src="https://90s.me/usr/uploads/2019/03/1889082173.jpeg" alt="排序"></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/java/" rel="tag">java</a>, <a class="has-link-grey -link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/05/09/2019-5-9-Arrays.sort%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Array.sort源码解析</span>
+            </a>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Daisy">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Daisy
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        inchWorld
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Wuhan</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            15
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            0
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            11
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/KDaisyers" target="_blank" rel="noopener">
+                Follow</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/KDaisyers">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.zhihu.com/people/zhong-shu-jun-65/activities" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">zhihu</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.zhihu.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/KDaisyers" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">KDaisyers</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/PC/" style="font-size: 10px;">PC</a> <a href="/tags/electron/" style="font-size: 10px;">electron</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javaScript/" style="font-size: 13.33px;">javaScript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/%E6%96%B9%E5%AF%B8/" style="font-size: 13.33px;">方寸</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 10px;">服务器</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 13.33px;">源码</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 16.67px;">笔记</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》收藏夹的使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》收藏夹的使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="C++指针与数组">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="title has-link-black-ter is-size-6 has-text-weight-normal">C++指针与数组</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》简易教务系统">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》简易教务系统</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLNnO.jpg" alt="Linux入门系列(三)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-04T16:00:00.000Z">2020-02-05</time></div>
+                    <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(三)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg" alt="Linux入门系列(二)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-31T16:00:00.000Z">2020-02-01</time></div>
+                    <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(二)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PC/">
+                        <span class="tag">PC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javaScript/">
+                        <span class="tag">javaScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%96%B9%E5%AF%B8/">
+                        <span class="tag">方寸</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                        <span class="tag">服务器</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/">
+                        <span class="tag">源码</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/">
+                        <span class="tag">笔记</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》收藏夹的使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》收藏夹的使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="C++指针与数组">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="title has-link-black-ter is-size-6 has-text-weight-normal">C++指针与数组</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》简易教务系统">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》简易教务系统</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLNnO.jpg" alt="Linux入门系列(三)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-04T16:00:00.000Z">2020-02-05</time></div>
+                    <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(三)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg" alt="Linux入门系列(二)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-31T16:00:00.000Z">2020-02-01</time></div>
+                    <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(二)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PC/">
+                        <span class="tag">PC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javaScript/">
+                        <span class="tag">javaScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%96%B9%E5%AF%B8/">
+                        <span class="tag">方寸</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                        <span class="tag">服务器</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/">
+                        <span class="tag">源码</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/">
+                        <span class="tag">笔记</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="Array.sort源码" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Daisy&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://yoursite.com',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

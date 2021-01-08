@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Linux入门系列(二) - Hexo</title>
+
+
+    <meta name="description" content="这篇笔记主要记录的是Linux操作系统相关的知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux入门系列(二)">
+<meta property="og:url" content="http://yoursite.com/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这篇笔记主要记录的是Linux操作系统相关的知识">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg">
+<meta property="article:published_time" content="2020-01-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-02-05T07:38:25.169Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="Linux入门系列(二)" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg" alt="Linux入门系列(二)">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-01-31T16:00:00.000Z">2020-02-01</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 minutes read (About 3260 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Linux入门系列(二)
+            
+        </h1>
+        <div class="content">
+            <blockquote>
+<p>这篇笔记主要记录的是Linux操作系统相关的知识</p>
+</blockquote>
+<a id="more"></a>
+
+
+
+<h3 id="一、组管理"><a href="#一、组管理" class="headerlink" title="一、组管理"></a>一、组管理</h3><h4 id="1-Linux组的基本介绍"><a href="#1-Linux组的基本介绍" class="headerlink" title="1. Linux组的基本介绍"></a>1. Linux组的基本介绍</h4><p>在Linux中每一个文件都有所有者、所在组、其它组的概念</p>
+<ul>
+<li><input disabled="" type="checkbox"> 所有者 </li>
+<li><input disabled="" type="checkbox"> 所在组</li>
+<li><input disabled="" type="checkbox"> 其它组</li>
+<li><input disabled="" type="checkbox"> 改变用户所在的组</li>
+</ul>
+<p>所有者就是这个文件是谁的，所在组默认的就是所有者所在的组，而其它组就是除去所在组以外的所有其它的组。</p>
+<h4 id="2-文件-目录所有者"><a href="#2-文件-目录所有者" class="headerlink" title="2. 文件/目录所有者"></a>2. 文件/目录所有者</h4><p>一般为文件的创建者，谁创建了文件就自然的成为该文件的所有者。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看文件的所有者</span></span><br><span class="line">$ ls -ahl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改文件的所有者</span></span><br><span class="line"><span class="comment"># chown 用户名 文件名</span></span><br><span class="line"><span class="comment"># 将root用户的a.txt更改为tom的</span></span><br><span class="line">$ chown tom a.txt</span><br></pre></td></tr></table></figure>
+
+<h5 id="（1）查看文件的所有者"><a href="#（1）查看文件的所有者" class="headerlink" title="（1）查看文件的所有者"></a>（1）查看文件的所有者</h5><p><img src="/images/linux/file_ls_ahl.png" alt="image-20200204153522057"></p>
+<h4 id="3-文件-目录所在组"><a href="#3-文件-目录所在组" class="headerlink" title="3. 文件/目录所在组"></a>3. 文件/目录所在组</h4><p>但某个用户创建一个文件后，这个文件的所在组就是该用户所在的组。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修改文件所在组</span></span><br><span class="line"><span class="comment"># chgrp  组名  文件名</span></span><br><span class="line">$ chgrp wudang a.txt</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="二、权限管理"><a href="#二、权限管理" class="headerlink" title="二、权限管理"></a>二、权限管理</h3><h4 id="1-权限的基本介绍"><a href="#1-权限的基本介绍" class="headerlink" title="1. 权限的基本介绍"></a>1. 权限的基本介绍</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">-rw-r--r--.   1   zwj   wudang  6  2月 3 03:10   a.txt</span><br><span class="line"></span><br><span class="line"># 分析 -rw-r--r--</span><br><span class="line">1. -表示这个文件是普通文件                  </span><br><span class="line">     -:普通文件 </span><br><span class="line">     d:目 录 </span><br><span class="line">     l:软链接 </span><br><span class="line">     c:字符设备[键盘，鼠标] </span><br><span class="line">     b:块文件，硬盘 </span><br><span class="line">2. rw-表示tom可以对这个文件可读可写</span><br><span class="line">     read</span><br><span class="line">     write</span><br><span class="line">3. r--表示所在组的成员只用读的权限</span><br><span class="line">     文件所在组的用户的权限</span><br><span class="line">4. r--表示其他组的用户只有读的权限</span><br><span class="line">     其它组的用户的权限</span><br><span class="line"></span><br><span class="line"># 分析 1</span><br><span class="line">如果是文件 &#x3D;&gt;  1表示硬连接</span><br><span class="line">如果是目录 &#x3D;&gt;  数字表示这个子目录个数</span><br><span class="line"></span><br><span class="line"># 分析 zwj</span><br><span class="line">文件所有者是zwj</span><br><span class="line"></span><br><span class="line"># 分析 wudang</span><br><span class="line">表示文件所在组是wudang</span><br><span class="line"></span><br><span class="line"># 分析 6</span><br><span class="line">表示文件的大小</span><br><span class="line">如果是目录就会显示 4096</span><br><span class="line"></span><br><span class="line"># 分析 2月 3 03:10</span><br><span class="line">表示文件最后的修改时间</span><br><span class="line"></span><br><span class="line"># a.txt</span><br><span class="line">文件名</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-rwx权限详解"><a href="#2-rwx权限详解" class="headerlink" title="2. rwx权限详解"></a>2. rwx权限详解</h4><p><strong>（一）rwx作用到文件</strong></p>
+<ul>
+<li>【r】 表示可读，可以读取查看</li>
+<li>【w】表示可写，可以修改，但是不代表可以删除，除非对该文件所在的目录有写权限</li>
+<li>【x】 表示可执行，可以被执行</li>
+</ul>
+<p><strong>（二）rwx作用到目录</strong></p>
+<ul>
+<li>【r】 表示可读，可以读取，ls查看目录内容</li>
+<li>【w】表示可写，可以修改，目录内创建+删除+重命名目录</li>
+<li>【x】表示可执行，可以进入该目录 </li>
+</ul>
+<p>可用数字表示为 <strong>r=4   w=2  x=1  因此rwx=4+2+1=7</strong></p>
+<h4 id="3-修改权限"><a href="#3-修改权限" class="headerlink" title="3. 修改权限"></a>3. 修改权限</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chmod 指令</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第一种方式 +、-、= 变更权限</span></span><br><span class="line"><span class="comment"># u =&gt; 所有者  g =&gt; 所有组  o =&gt; 其他人  a =&gt; 所有人(u、g、o的总和)</span></span><br><span class="line"><span class="comment"># 对于文件a.txt给所有者读写和执行的权限，所在组读写的权限，给其他人读的权限</span></span><br><span class="line">$ chmod u=rwx,g=rw,g=r a.txt</span><br><span class="line"><span class="comment"># 给其他人增加一个写的权限</span></span><br><span class="line">$ chmod o+w a.txt</span><br><span class="line"><span class="comment"># 给所有人都减少一个写的权限</span></span><br><span class="line">$ chmod a-w a.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二种方式 通过数字更改权限</span></span><br><span class="line"><span class="comment"># r=4 w=2 x=1  rwx=4+2+1=7</span></span><br><span class="line"><span class="comment"># chmod 751 a.txt   &lt;=&gt;   chmod u=rwx,g=rx,o=x a.txt</span></span><br><span class="line">$ chmod 751 a.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># chown 修改文件所有者</span></span><br><span class="line"><span class="comment"># chown在前面讲过，但是也可以通过这个指令更改我呢就爱你的所有者和所在组</span></span><br><span class="line"><span class="comment"># chown newowner:newgroup file  =&gt; 改变用户的所有者和所有组</span></span><br><span class="line"><span class="comment"># -R 如果是目录，则使其下所有子文件或目录递归生效</span></span><br><span class="line">$ chown newowner:newgroup file</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="三、任务调度"><a href="#三、任务调度" class="headerlink" title="三、任务调度"></a>三、任务调度</h3><p> cron是chronograph的缩写,计时器的意思,crond就是cron daemon,crontab就是cron table </p>
+<p> 任务调度，是指系统在某一个时间执行的特定的命令或程序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crontab 进行定时任务的设置</span></span><br><span class="line"><span class="comment"># crontab [选项]</span></span><br><span class="line"><span class="comment"># -e 编辑crontab定时任务</span></span><br><span class="line"><span class="comment"># -l 查询crontab任务</span></span><br><span class="line"><span class="comment"># -r 删除当前用户所有的crontab任务</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置一个调度任务，每小时的每分钟执行 ls -l /etc/ &gt;&gt; /tmp/to.txt</span></span><br><span class="line">$ crontab -e</span><br><span class="line"><span class="comment"># 会进入vim编辑中，写入 */1 * * * * ls -l /etc/ &gt;&gt; /tmp/to.txt</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启任务调度</span></span><br><span class="line">$ service crond restart</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="四、磁盘分区、挂载"><a href="#四、磁盘分区、挂载" class="headerlink" title="四、磁盘分区、挂载"></a>四、磁盘分区、挂载</h3><h4 id="1-分区基础知识"><a href="#1-分区基础知识" class="headerlink" title="1. 分区基础知识"></a>1. 分区基础知识</h4><h5 id="（1）分区的方式"><a href="#（1）分区的方式" class="headerlink" title="（1）分区的方式"></a>（1）分区的方式</h5><h6 id="MBR-分区"><a href="#MBR-分区" class="headerlink" title="MBR 分区"></a>MBR 分区</h6><ul>
+<li>最多支持四个主分区</li>
+<li>系统只能安装在主分区</li>
+<li>扩展分区要占一个分区</li>
+<li>MBR最大只支持2TB，但拥有最好的兼容性</li>
+</ul>
+<h6 id="GPT分区"><a href="#GPT分区" class="headerlink" title="GPT分区"></a>GPT分区</h6><ul>
+<li>支持无限多个主分区（操作系统可能有限制，Windows最多128个分区）</li>
+<li>最大支持18EB的大容量（1EB=  1024PB  1PB = 1024TB）</li>
+<li>Windows7 64位以后支持GPT</li>
+</ul>
+<h5 id="（2）Linux-分区"><a href="#（2）Linux-分区" class="headerlink" title="（2）Linux 分区"></a>（2）Linux 分区</h5><p>Linux无论有几个分区，分给哪一个目录使用，它归根结底只有一个根目录，一个独立且唯一的文件结构，Linux中每一个分区都是用来组成整个文件系统的一部分。</p>
+<p>就是将各个分区挂载在不同的目录下，曾经安装双系统的时候，选择手动分区就是这个意思。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看分区</span></span><br><span class="line"><span class="comment"># 命令记忆 =&gt; 老师不离开</span></span><br><span class="line">$ lsblk -f</span><br></pre></td></tr></table></figure>
+
+<h5 id="（3）挂载案例"><a href="#（3）挂载案例" class="headerlink" title="（3）挂载案例"></a>（3）挂载案例</h5><p>如何增加一块硬盘？</p>
+<ul>
+<li><input disabled="" type="checkbox"> 虚拟机添加硬盘</li>
+<li><input disabled="" type="checkbox"> 分区</li>
+<li><input disabled="" type="checkbox"> 格式化</li>
+<li><input disabled="" type="checkbox"> 挂载</li>
+<li><input disabled="" type="checkbox"> 设置永久挂载</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.虚拟机首先添加一块硬盘</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.重启后查看磁盘</span></span><br><span class="line">$ reboot</span><br><span class="line">$ lsblk -f  <span class="comment"># 此时会看到一的新的分区  sdb</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3.分区</span></span><br><span class="line">$ fdisk /dev/sdb</span><br><span class="line"><span class="comment"># 接着输入 m  =&gt;   然后输入 n  =&gt;  p  =&gt;  1   =&gt;  默认  =&gt;  默认  =&gt;  w</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4.格式化</span></span><br><span class="line">$ mkfs -t ext4 /dev/sdb1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5.挂载</span></span><br><span class="line"><span class="comment"># 创建一个需要挂载的目录</span></span><br><span class="line">$ mkdir /home/newDisk</span><br><span class="line"><span class="comment"># 挂载</span></span><br><span class="line">$ mount /dev/sdb1 /home/newDisk</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6.永久挂载</span></span><br><span class="line">$ vim /etc/fstab</span><br><span class="line"><span class="comment"># 添加如下内容</span></span><br><span class="line">/dev/sdb1             /home/newDisk     ext4   defaults    0 0</span><br><span class="line">$ mount -a</span><br><span class="line">$ reboot</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-磁盘情况查询"><a href="#2-磁盘情况查询" class="headerlink" title="2. 磁盘情况查询"></a>2. 磁盘情况查询</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查询系统整体磁盘使用情况</span></span><br><span class="line">$ df -lh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询指定目录的磁盘占用情况</span></span><br><span class="line"><span class="comment"># du -h /目录</span></span><br><span class="line"><span class="comment"># -s 指定目录占用大小汇总</span></span><br><span class="line"><span class="comment"># -h 带计量单位</span></span><br><span class="line"><span class="comment"># -a 含文件</span></span><br><span class="line"><span class="comment"># --max-depth=1 子目录深度</span></span><br><span class="line"><span class="comment"># -c 列出明细同时，增加汇总量</span></span><br><span class="line">$ du -h /opt</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-工作中常用指令"><a href="#3-工作中常用指令" class="headerlink" title="3. 工作中常用指令"></a>3. 工作中常用指令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 统计/home目录下文件的个数</span></span><br><span class="line"><span class="comment"># wc 统计的意思</span></span><br><span class="line">$ ls -l /home | grep <span class="string">"^-"</span> | wc -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计/home目录下目录的个数</span></span><br><span class="line">$ ls -l /home | grep <span class="string">"^d"</span> | wc -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># 统计/home目录下文件的个数包括子目录下的</span></span><br><span class="line">$ $ ls -lR /home | grep <span class="string">"^-"</span> | wc -l</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="五、网络配置"><a href="#五、网络配置" class="headerlink" title="五、网络配置"></a>五、网络配置</h3><h4 id="网络环境配置"><a href="#网络环境配置" class="headerlink" title="网络环境配置"></a>网络环境配置</h4><h5 id="1-IP不固定"><a href="#1-IP不固定" class="headerlink" title="1. IP不固定"></a>1. IP不固定</h5><p>系统  =&gt;  首选项  =&gt;  网络连接  =&gt;  编辑  =&gt;  自动连接</p>
+<h5 id="2-IP固定"><a href="#2-IP固定" class="headerlink" title="2. IP固定"></a>2. IP固定</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 修改网络配置文件</span></span><br><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加如下几行</span></span><br><span class="line">ONBOOT=yes</span><br><span class="line">BOOTPROTO=ststic</span><br><span class="line">IPADDR=192.168.254.128</span><br><span class="line">GATEWAY=192.168.254.2</span><br><span class="line">DNS1=192.168.254.2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务</span></span><br><span class="line">$ service network restart</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="六、进程管理"><a href="#六、进程管理" class="headerlink" title="六、进程管理"></a>六、进程管理</h3><h4 id="1-进程的基本介绍"><a href="#1-进程的基本介绍" class="headerlink" title="1. 进程的基本介绍"></a>1. 进程的基本介绍</h4><p>在Linux系统中，每个<strong>执行的</strong>程序都称为一个进程，每一个进程都分配一个ID号。我在学操作系统的时候，老师说进程就是程序的一次执行过程。</p>
+<p>每一个进程都会对应一个父进程，而这个父进程可以复制多个子进程。</p>
+<p>每个进程都可以以两种方式存在：<strong>前台和后台</strong>，后台又叫守护进程。</p>
+<h4 id="2-显示系统进程"><a href="#2-显示系统进程" class="headerlink" title="2. 显示系统进程"></a>2. 显示系统进程</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示系统正在执行的进程</span></span><br><span class="line"><span class="comment"># -a 显示当前终端的所有进程信息</span></span><br><span class="line"><span class="comment"># -u 以用户格式显示进程信息</span></span><br><span class="line"><span class="comment"># -x 显示后台进程运行的参数</span></span><br><span class="line">$ ps -aux | more</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找 sshd 的进程</span></span><br><span class="line">$ ps -aux | grep sshd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看父进程</span></span><br><span class="line">$ ps -ef</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看进程树</span></span><br><span class="line"><span class="comment"># -p 显示进程的PID</span></span><br><span class="line"><span class="comment"># -u 显示进程的所属用户</span></span><br><span class="line">$ pstree -p</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>user</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td>PID</td>
+<td>进程 ID</td>
+</tr>
+<tr>
+<td><strong>%CPU</strong></td>
+<td><strong>占用的 CPU</strong></td>
+</tr>
+<tr>
+<td><strong>%MEM</strong></td>
+<td><strong>占用内存</strong></td>
+</tr>
+<tr>
+<td><strong>VSZ</strong></td>
+<td><strong>使用的虚拟存储情况 （单位：KB）</strong></td>
+</tr>
+<tr>
+<td><strong>RSS</strong></td>
+<td><strong>使用的物理存储情况 （单位：KB）</strong></td>
+</tr>
+<tr>
+<td>TTY</td>
+<td>使用的终端</td>
+</tr>
+<tr>
+<td>STAT</td>
+<td>进程的状态 S:休眠   R：运行</td>
+</tr>
+<tr>
+<td>START</td>
+<td>启动时间</td>
+</tr>
+<tr>
+<td>TIME</td>
+<td>占用CPU的总时间</td>
+</tr>
+<tr>
+<td>COMMAND</td>
+<td>进程执行时的命令行</td>
+</tr>
+</tbody></table>
+<h4 id="3-终止进程"><a href="#3-终止进程" class="headerlink" title="3. 终止进程"></a>3. 终止进程</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kill指令 和 killall指令</span></span><br><span class="line"><span class="comment"># kill [选项] 进程号  =&gt;  通过进程号杀死进程</span></span><br><span class="line"><span class="comment"># -9 强迫进程立即停止</span></span><br><span class="line"><span class="comment"># 终止远程登陆服务</span></span><br><span class="line"><span class="comment"># 1.查到远程登陆的进程号</span></span><br><span class="line">$ ps -aux | grep sshd</span><br><span class="line"><span class="comment"># 2.根据得到的进程号杀死进程</span></span><br><span class="line">$ <span class="built_in">kill</span> 4010</span><br><span class="line"></span><br><span class="line"><span class="comment"># killall 进程名称  =&gt;  通过进程名称杀死进程，支持通配符</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-服务管理"><a href="#4-服务管理" class="headerlink" title="4. 服务管理"></a>4. 服务管理</h4><p>服务（service）本质就是进程，但是运行在后台的通常都会监听某个端口，等待其他程序的请求。</p>
+<h5 id="（1）防火墙操作"><a href="#（1）防火墙操作" class="headerlink" title="（1）防火墙操作"></a>（1）防火墙操作</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># service管理命令</span></span><br><span class="line"><span class="comment"># service 服务名 [start|restart|reload|status]</span></span><br><span class="line"><span class="comment"># CentOS7.0以后用的是systemctl代替service</span></span><br><span class="line"><span class="comment"># 查看防火墙状态</span></span><br><span class="line">$ service iptables stauts</span><br><span class="line"><span class="comment"># 关闭防火墙</span></span><br><span class="line">$ service iptables stop</span><br><span class="line"><span class="comment"># 重启防火墙</span></span><br><span class="line">$ service iptables start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用telnet指令检查Linux的某一个端口是否在监听，并且可以访问</span></span><br><span class="line"><span class="comment"># windows 打开 telnet ip 端口</span></span><br><span class="line">telnet 192.168.254.128 22</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意：如果提示telnet不是内部命令，如下解决</span></span><br><span class="line"><span class="comment"># 打开控制面板  =&gt;  程序  =&gt;  打开或关闭Windows功能  =&gt;  勾选Telnet</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="（2）服务状态及级别"><a href="#（2）服务状态及级别" class="headerlink" title="（2）服务状态及级别"></a>（2）服务状态及级别</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看服务名</span></span><br><span class="line"><span class="comment"># 方法一：使用setup  =&gt;  系统服务就可以看到</span></span><br><span class="line">$ setup</span><br><span class="line"><span class="comment"># 方法二：/etc/init.d</span></span><br><span class="line">$ ls -l /etc/init.d/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行级别，在《Linux入门系列(一)》中有涉及</span></span><br><span class="line">$ vim /etc/inittab</span><br><span class="line"><span class="comment"># chkconfig 可以给每个服务的各个运行级别设置自启动/关闭</span></span><br><span class="line"><span class="comment"># 查看服务  chkconfig --list | grep xxx</span></span><br><span class="line"><span class="comment"># chkconfig 服务名 --list</span></span><br><span class="line"><span class="comment"># chkconfig --level 5 服务名 on/off</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="5-进程监控"><a href="#5-进程监控" class="headerlink" title="5. 进程监控"></a>5. 进程监控</h4><h5 id="（1）动态监控进程"><a href="#（1）动态监控进程" class="headerlink" title="（1）动态监控进程"></a>（1）动态监控进程</h5><p><code>top</code> 和<code>ps</code>命令相似，它们都是来显示正在执行的进程，<code>top</code>与<code>ps</code>最大的不同之处在于<code>top</code>在执行一段时间可以更新正在运行的进程。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># top指令</span></span><br><span class="line"><span class="comment"># -d秒数 指定top命令每隔几秒更新，默认是3在top命令的交互模式当中可以执行的命令</span></span><br><span class="line"><span class="comment"># -i 使top不显示任何闲置或者僵尸进程</span></span><br><span class="line"><span class="comment"># -p 通过指定监控进程ID来仅仅监控某一个进程的状态</span></span><br><span class="line">$ top --list</span><br></pre></td></tr></table></figure>
+
+<h5 id="（2）查看系统网络情况"><a href="#（2）查看系统网络情况" class="headerlink" title="（2）查看系统网络情况"></a>（2）查看系统网络情况</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># netstat 指令</span></span><br><span class="line"><span class="comment"># netstat [选项]</span></span><br><span class="line"><span class="comment"># -an 按一定顺序排列输出</span></span><br><span class="line"><span class="comment"># -p 显示哪个进程在调用</span></span><br><span class="line">$ netstat -anp</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="七、软件包管理"><a href="#七、软件包管理" class="headerlink" title="七、软件包管理"></a>七、软件包管理</h3><h4 id="1-rpm包管理"><a href="#1-rpm包管理" class="headerlink" title="1. rpm包管理"></a>1. rpm包管理</h4><p>一种用于互联网下载包的打包及管理工具，它包含在某些Linux发行版中。它生成具有.PRM 扩展名的文件。RPM的全名是RedHat Package Manager（RedHat软件包管理工具），类似Windows的setup.exe。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看已安装的rpm列表</span></span><br><span class="line">$ rpm -qa</span><br><span class="line">$ rpm -qa | grep firefox</span><br><span class="line"><span class="comment"># 结果如下</span></span><br><span class="line"><span class="comment"># firefox-17.0.10-1.el6.centos.x86_64</span></span><br><span class="line"><span class="comment"># firefox 软件名  17.0.10-1 版本号   el6.centos.x86_64  适用系统是centos6.x的64位系统</span></span><br><span class="line"><span class="comment"># 如果是i686、i386表示32位系统，noarch表示通用</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询安装的软件的安装路径</span></span><br><span class="line">$ rpm -ql firefox</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装rpm包</span></span><br><span class="line"><span class="comment"># rpm -ivh RPM包的名称</span></span><br><span class="line"><span class="comment"># i install  v verbose提示  h hash 进度条</span></span><br><span class="line">$ rpm -ivh firefox</span><br><span class="line"></span><br><span class="line"><span class="comment"># 卸载rpm包</span></span><br><span class="line"><span class="comment"># rpm -e RPM包的名称</span></span><br><span class="line">$ rpm -e firefox</span><br></pre></td></tr></table></figure>
+
+<h4 id="（2）yum安装"><a href="#（2）yum安装" class="headerlink" title="（2）yum安装"></a>（2）yum安装</h4><p>yum是一个Shell前端软件包管理器。基于RPM包管理，能够从指定的服务器自动下载RPM包并且安装，可以自动处理依赖性关系，并且一次安装所有依赖的软件包。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum指令</span></span><br><span class="line"><span class="comment"># 查询yum服务器是否有需要安装的软件</span></span><br><span class="line"><span class="comment"># yum list | grep xx</span></span><br><span class="line"><span class="comment"># 安装指定的yum包</span></span><br><span class="line"><span class="comment"># yum install xxx</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="八、-Ubuntu-系统"><a href="#八、-Ubuntu-系统" class="headerlink" title="八、 Ubuntu 系统"></a>八、 Ubuntu 系统</h3><p>除了Centos以外，Ubuntu也是Linux的一个应用广泛的发行版，并且对Python的支持很好，但是由于是不同的发行版操作方式略有区别，这里只是介绍一下。</p>
+<h4 id="1-apt软件包管理"><a href="#1-apt软件包管理" class="headerlink" title="1. apt软件包管理"></a>1. apt软件包管理</h4><p>apt是Advanced Packaging Tool的简称，是一款安装包管理工具，在Ubuntu下，我们可以使用apt命令用于软件包的安装、删除、清理等。类似于Windows中的软件工具。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新源</span></span><br><span class="line">$ sudo apt-get update</span><br><span class="line"><span class="comment"># 安装包</span></span><br><span class="line">$ sudo apt-get install package</span><br><span class="line"><span class="comment"># 删除包</span></span><br><span class="line">$ sudo apt-get remove package</span><br><span class="line"></span><br><span class="line"><span class="comment"># 搜索软件包</span></span><br><span class="line">$ sudo apt-cache search package</span><br><span class="line"><span class="comment"># 获取包的管理信息，大小、说明、版本等</span></span><br><span class="line">$ sudo apt-cache show package</span><br><span class="line"><span class="comment"># 重新安装包</span></span><br><span class="line">$ sudo apt-get install package-reinstall</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修复安装</span></span><br><span class="line">$ sudo apt-get -f install</span><br><span class="line"><span class="comment"># 删除包，包括配置文件</span></span><br><span class="line">$ sudo apt-get remove package --purge</span><br><span class="line"><span class="comment"># 安装相关的编译环境</span></span><br><span class="line">$ sudo apt-get build-dep package</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新已安装的包</span></span><br><span class="line">$ sudo apt-get upgrade</span><br><span class="line"><span class="comment"># 升级系统</span></span><br><span class="line">$ sudo apt-get dist-upgrade</span><br><span class="line"><span class="comment"># 了解使用该包依赖哪些包</span></span><br><span class="line">$ sudo apt-cache depends package</span><br><span class="line"><span class="comment"># 查看该包被哪些包依赖</span></span><br><span class="line">$ sudo apt-cache rdepends package</span><br><span class="line"><span class="comment"># 下载该包的源代码</span></span><br><span class="line">$ sudo apt-get <span class="built_in">source</span> package</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-更换软件源"><a href="#2-更换软件源" class="headerlink" title="2. 更换软件源"></a>2. 更换软件源</h4><p>使用清华的软件源，建议先备份再修改配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 地址为 https://mirrirs.tuna.tsinghua.edu/ubuntu</span></span><br><span class="line"><span class="comment"># 修改配置文件</span></span><br><span class="line">$ vim /etc/apt/sources.list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新</span></span><br><span class="line">$ sudo apt-get update</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-SSH远程登录"><a href="#3-SSH远程登录" class="headerlink" title="3. SSH远程登录"></a>3. SSH远程登录</h4><p>由于Ubuntu没有sshd远程登陆，因此需要使用安装SSH服务。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装SSH</span></span><br><span class="line">$ sudo apt-get install openssh-server</span><br><span class="line"><span class="comment"># 启用</span></span><br><span class="line">$ service sshd restart</span><br></pre></td></tr></table></figure>
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Linux/" rel="tag">Linux</a>, <a class="has-link-grey -link" href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag">笔记</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Linux入门系列(三)</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/02/01/2020-2-1-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%80/">
+                <span class="level-item">Linux入门系列(一)</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Daisy">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Daisy
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        inchWorld
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Wuhan</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            15
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            0
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            11
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/KDaisyers" target="_blank" rel="noopener">
+                Follow</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/KDaisyers">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.zhihu.com/people/zhong-shu-jun-65/activities" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">zhihu</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.zhihu.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/KDaisyers" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">KDaisyers</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/PC/" style="font-size: 10px;">PC</a> <a href="/tags/electron/" style="font-size: 10px;">electron</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javaScript/" style="font-size: 13.33px;">javaScript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/%E6%96%B9%E5%AF%B8/" style="font-size: 13.33px;">方寸</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 10px;">服务器</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 13.33px;">源码</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 16.67px;">笔记</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》收藏夹的使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》收藏夹的使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="C++指针与数组">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="title has-link-black-ter is-size-6 has-text-weight-normal">C++指针与数组</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》简易教务系统">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》简易教务系统</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLNnO.jpg" alt="Linux入门系列(三)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-04T16:00:00.000Z">2020-02-05</time></div>
+                    <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(三)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg" alt="Linux入门系列(二)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-31T16:00:00.000Z">2020-02-01</time></div>
+                    <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(二)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PC/">
+                        <span class="tag">PC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javaScript/">
+                        <span class="tag">javaScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%96%B9%E5%AF%B8/">
+                        <span class="tag">方寸</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                        <span class="tag">服务器</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/">
+                        <span class="tag">源码</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/">
+                        <span class="tag">笔记</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》收藏夹的使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》收藏夹的使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="C++指针与数组">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="title has-link-black-ter is-size-6 has-text-weight-normal">C++指针与数组</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》简易教务系统">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》简易教务系统</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLNnO.jpg" alt="Linux入门系列(三)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-04T16:00:00.000Z">2020-02-05</time></div>
+                    <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(三)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg" alt="Linux入门系列(二)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-31T16:00:00.000Z">2020-02-01</time></div>
+                    <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(二)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PC/">
+                        <span class="tag">PC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javaScript/">
+                        <span class="tag">javaScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%96%B9%E5%AF%B8/">
+                        <span class="tag">方寸</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                        <span class="tag">服务器</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/">
+                        <span class="tag">源码</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/">
+                        <span class="tag">笔记</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="Linux入门系列(二)" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Daisy&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://yoursite.com',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

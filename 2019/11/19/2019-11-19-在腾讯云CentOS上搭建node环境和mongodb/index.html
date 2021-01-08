@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>将node和mongodb部署到CentOS - Hexo</title>
+
+
+    <meta name="description" content="在腾讯云CentOS上搭建node环境和mongodb 由于需要将《方寸》上线，因此需要选择一个服务器来搭建我的后端环境，经过多方面考虑(经济原因)我选择了腾讯云，腰包问题只购买了1核2G的云主机，将就着用吧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="将node和mongodb部署到CentOS">
+<meta property="og:url" content="http://yoursite.com/2019/11/19/2019-11-19-%E5%9C%A8%E8%85%BE%E8%AE%AF%E4%BA%91CentOS%E4%B8%8A%E6%90%AD%E5%BB%BAnode%E7%8E%AF%E5%A2%83%E5%92%8Cmongodb/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在腾讯云CentOS上搭建node环境和mongodb 由于需要将《方寸》上线，因此需要选择一个服务器来搭建我的后端环境，经过多方面考虑(经济原因)我选择了腾讯云，腰包问题只购买了1核2G的云主机，将就着用吧。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s2.ax1x.com/2020/01/08/lgLJc6.jpg">
+<meta property="article:published_time" content="2019-11-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-01-08T07:34:13.164Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="服务器">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.ax1x.com/2020/01/08/lgLJc6.jpg">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.svg" alt="将node和mongodb部署到CentOS" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLJc6.jpg" alt="将node和mongodb部署到CentOS">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-11-18T16:00:00.000Z">2019-11-19</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    9 minutes read (About 1335 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                将node和mongodb部署到CentOS
+            
+        </h1>
+        <div class="content">
+            <h2 id="在腾讯云CentOS上搭建node环境和mongodb"><a href="#在腾讯云CentOS上搭建node环境和mongodb" class="headerlink" title="在腾讯云CentOS上搭建node环境和mongodb"></a>在腾讯云CentOS上搭建node环境和mongodb</h2><blockquote>
+<p>由于需要将《方寸》上线，因此需要选择一个服务器来搭建我的后端环境，经过多方面考虑(经济原因)我选择了腾讯云，腰包问题只购买了1核2G的云主机，将就着用吧。</p>
+</blockquote>
+<a id="more"></a>
+<p>主要参考教程是<em>云上云</em>写的<a href="https://cloud.tencent.com/developer/article/1494192">《如何将node+mongodb项目部署在腾讯云服务器，并进行性能优化的》</a>，这里记录一下自己遇到的坑和解决方案。</p>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><h4 id="1-购买服务器"><a href="#1-购买服务器" class="headerlink" title="1. 购买服务器"></a>1. 购买服务器</h4><p>这里就不多说了，我购买的是腾讯云的CentOS</p>
+<h4 id="2-登陆服务器"><a href="#2-登陆服务器" class="headerlink" title="2. 登陆服务器"></a>2. 登陆服务器</h4><p>登陆服务器，我使用的Windows的PowerShell</p>
+<blockquote>
+<p>ssh <a href="mailto:root@122.23.34.54">root@122.23.34.54</a></p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/11/19/pZAf6eLsqCxXilH.png" alt=""></p>
+<p>登陆进来过后，可以升级一下CentOS</p>
+<blockquote>
+<p>yum -y update</p>
+</blockquote>
+<h4 id="3-安装-node"><a href="#3-安装-node" class="headerlink" title="3. 安装 node"></a>3. 安装 node</h4><p>由于在官网安装 <code>node</code>太慢了，这里使用<code>scp</code>命令将windows在的文件上传给服务器。</p>
+<p>首先，进入node官网<a href="https://nodejs.org/en/download/"> https://nodejs.org/en/download/ </a>下载<code>Source Code</code>文件。</p>
+<p>在下载好的目录按住<code>shift键</code>,选择在此处进入PowerShell，然后使用<code>scp</code>命令上传文件。</p>
+<p><img src="https://i.loli.net/2019/11/19/bBegAyFn7YLvkaZ.png" alt=""></p>
+<p>后面的这个是路径，一般<code>/usr/local/src</code>是放源码的。</p>
+<p>上传一般很快的，这个时候切到<code>/usr/local/src</code>这个目录下。</p>
+<blockquote>
+<p>cd   /usr/local/src</p>
+</blockquote>
+<p>进行解压操作:</p>
+<blockquote>
+<p>tar  -xzvf node-v12.13.0.tar.gz    // 具体按照你下的node版本</p>
+</blockquote>
+<p>解压完毕后，就需要编译源码了，这个时候需要用到 <code>g++</code></p>
+<blockquote>
+<p>yum -y install gcc gcc-c++ autoconf</p>
+</blockquote>
+<p>这里需要注意一下，我安装的时候就是没有注意版本的问题，导致预编译一直<code>warning</code>,首先查看一下版本</p>
+<blockquote>
+<p>gcc -v</p>
+</blockquote>
+<p>如果版本低于7.0.0的话，我建议还是要升级一下，不然后面会出问题，这里有两种升级方式，</p>
+<p>第一种：</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;yum install centos-release-scl -y</span><br><span class="line">&gt;yum install devtoolset-7 -y</span><br><span class="line">&gt;scl enable devtoolset-7 bash</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>这个是自动升级，我成功了，如果你的版本还是较低的话，这里我放一个连接，可以参考一下<a href="https://note.leodev.me/2018/03/30/nodejs-installation-notes/"> https://note.leodev.me/2018/03/30/nodejs-installation-notes/ </a>，博客介绍了如何手动升级。</p>
+<p>至此准备工作做完了。切换到解压后的文件夹</p>
+<blockquote>
+<p>cd node-v12.13.0</p>
+</blockquote>
+<p>执行配置脚本来预编译:</p>
+<blockquote>
+<p>./configure</p>
+</blockquote>
+<p>如果没有报错，就编译源代码，这个过程比较久</p>
+<blockquote>
+<p>make</p>
+</blockquote>
+<p>编译完成后，执行安装命令:</p>
+<blockquote>
+<p>make install</p>
+</blockquote>
+<p>测试一下，node有没有安装好:</p>
+<blockquote>
+<p>node -v</p>
+</blockquote>
+<p>如果提示 <code>-bash node: command not found</code>只能用下面的方式来解决了:</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install epel-release</span><br><span class="line">sudo yum install nodejs</span><br><span class="line">node --v</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>安装<code>npm</code> 和 <code>express</code></p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install npm --enablerepo&#x3D;epel</span><br><span class="line">sudo npm install -g express</span><br><span class="line">sudo npm install -g express-generator</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>至此，node安装成功！</p>
+<h4 id="4-安装mongodb"><a href="#4-安装mongodb" class="headerlink" title="4. 安装mongodb"></a>4. 安装mongodb</h4><p>下载地址：<a href="https://www.mongodb.com/download-center/community">https://www.mongodb.com/download-center/community</a></p>
+<p>我去看了一下，发现centos不知道在哪一个，我就直接按我看的那篇教程操作了一遍。</p>
+<p>下载安装包，和解压</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local</span><br><span class="line">wget https:&#x2F;&#x2F;fastdl.mongodb.org&#x2F;linux&#x2F;mongodb-linux-x86_64-4.0.4.tgz</span><br><span class="line">tar zxvf mongodb-linux-x86_64-4.0.4.tgz</span><br><span class="line">mv mongodb-linux-x86_64-4.0.4 mongodb</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>要在<code>var</code>文件夹中建立<code>mongodb</code>文件夹，分别用来存放数据和日志</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;var&#x2F;mongodb</span><br><span class="line">mkdir &#x2F;var&#x2F;mongodb&#x2F;data</span><br><span class="line">mkdir &#x2F;var&#x2F;mongodb&#x2F;logs</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>这里的安装我基本是按教程来的，打开<code>rc.local</code>文件，添加Centos开机启动项</p>
+<blockquote>
+<p>vim /etc/rc.d/rc.local</p>
+</blockquote>
+<p>将<code>mongodb</code>启动命令追加文件中，使开机自启动</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;mongodb&#x2F;bin&#x2F;mongod --dbpath&#x3D;&#x2F;var&#x2F;mongodb&#x2F;data --logpath &#x2F;var&#x2F;mongodb&#x2F;logs&#x2F;log.log -fork</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>接着退出<code>vim</code>，启动<code>mongodb</code>，命令和上面一样</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;mongodb&#x2F;bin&#x2F;mongod --dbpath&#x3D;&#x2F;var&#x2F;mongodb&#x2F;data --logpath &#x2F;var&#x2F;mongodb&#x2F;logs&#x2F;log.log -fork</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>如果没有报错，基本就安装成功了。我连接<code>mongodb</code>没有账号和密码，如果你的有，可以去我参考的博客中看一下。</p>
+<h4 id="5-安装nginx"><a href="#5-安装nginx" class="headerlink" title="5. 安装nginx"></a>5. 安装nginx</h4><p>这里我参考了<a href="https://blog.csdn.net/littleorange6/article/details/78532167"> https://blog.csdn.net/littleorange6/article/details/78532167 </a> 和 <a href="https://blog.csdn.net/weixin_34044273/article/details/91365937">https://blog.csdn.net/weixin_34044273/article/details/91365937 </a></p>
+<p>使用 <code>yum</code>安装:</p>
+<blockquote>
+<p>yum install nginx</p>
+</blockquote>
+<p>这个时候你就可以通过你的公网ip来访问了，如果你没有出现<strong>welcome to nginx</strong>，不要慌，这个是因为腾讯云要设置安全组，我给一个连接吧<a href="https://cloud.tencent.com/document/product/213/15377"> https://cloud.tencent.com/document/product/213/15377 </a></p>
+<p>现在可以访问了，接下来就是更改<code>nginx</code>的配置了。</p>
+<p>由于我只是配置了一个接口，我只改了<code>/etc/nginx/nginx.conf</code>的一部分:</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name your_name;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;localhost:3000;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page 500 502 503 504 &#x2F;50x.html;</span><br><span class="line">    location &#x2F;50x.html &#123;</span><br><span class="line">        root &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>配置完后，需要<code>reload</code>一下</p>
+<blockquote>
+<p> nginx -s reload </p>
+</blockquote>
+<h4 id="6-上传代码"><a href="#6-上传代码" class="headerlink" title="6. 上传代码"></a>6. 上传代码</h4><p>我这个软件由于不需要前端上传，因此我依旧使用<code>scp</code>命令，直接上传到某一个 目录下就可使用了，当然为了永久运行，需要借助到<code>pm2</code></p>
+<p>安装<code>pm2</code>：</p>
+<blockquote>
+<p>npm install -g pm2</p>
+</blockquote>
+<p>开启服务:</p>
+<blockquote>
+<p>cd 你的工作目录</p>
+<p>pm2 start app.js  // 我的是启动文件是app.js</p>
+</blockquote>
+<p>这个时候，前端就可以用开放端口的ip来获取数据了。</p>
+<p>完成了!</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/01/08/2020-1-8-%E5%BE%AE%E7%82%B9%E6%B8%85%E5%8D%95%E7%9A%84%E5%AE%9E%E7%8E%B0/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">《微点清单》身边不可少的Todos</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/06/27/2019-5-27-%E5%9D%A6%E5%85%8B%E5%A4%A7%E6%88%98%E5%8D%95%E6%9C%BA%E7%89%88/">
+                <span class="level-item">坦克大战单机版</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Daisy">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Daisy
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        inchWorld
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Wuhan</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            15
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            0
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            11
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/KDaisyers" target="_blank" rel="noopener">
+                Follow</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/KDaisyers">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://www.zhihu.com/people/zhong-shu-jun-65/activities" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">zhihu</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">www.zhihu.com</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/KDaisyers" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">KDaisyers</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/PC/" style="font-size: 10px;">PC</a> <a href="/tags/electron/" style="font-size: 10px;">electron</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/javaScript/" style="font-size: 13.33px;">javaScript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/%E6%96%B9%E5%AF%B8/" style="font-size: 13.33px;">方寸</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 10px;">服务器</a> <a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 13.33px;">源码</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 16.67px;">笔记</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》收藏夹的使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》收藏夹的使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="C++指针与数组">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="title has-link-black-ter is-size-6 has-text-weight-normal">C++指针与数组</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》简易教务系统">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》简易教务系统</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLNnO.jpg" alt="Linux入门系列(三)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-04T16:00:00.000Z">2020-02-05</time></div>
+                    <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(三)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg" alt="Linux入门系列(二)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-31T16:00:00.000Z">2020-02-01</time></div>
+                    <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(二)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PC/">
+                        <span class="tag">PC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javaScript/">
+                        <span class="tag">javaScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%96%B9%E5%AF%B8/">
+                        <span class="tag">方寸</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                        <span class="tag">服务器</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/">
+                        <span class="tag">源码</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/">
+                        <span class="tag">笔记</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》收藏夹的使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E6%94%B6%E8%97%8F%E5%A4%B9%E4%BD%BF%E7%94%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》收藏夹的使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="C++指针与数组">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-05-06-C++%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/" class="title has-link-black-ter is-size-6 has-text-weight-normal">C++指针与数组</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLYjK.jpg" alt="《方寸》简易教务系统">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-12T16:00:00.000Z">2020-02-13</time></div>
+                    <a href="/2020/02/13/2020-02-13-%E3%80%8A%E6%96%B9%E5%AF%B8%E3%80%8B%E7%AE%80%E6%98%93%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F/" class="title has-link-black-ter is-size-6 has-text-weight-normal">《方寸》简易教务系统</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLNnO.jpg" alt="Linux入门系列(三)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-04T16:00:00.000Z">2020-02-05</time></div>
+                    <a href="/2020/02/05/2020-2-5-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%B8%89/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(三)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s2.ax1x.com/2020/01/08/lgLUBD.jpg" alt="Linux入门系列(二)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-31T16:00:00.000Z">2020-02-01</time></div>
+                    <a href="/2020/02/01/2020-2-3-Linux%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%E4%BA%8C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux入门系列(二)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">June 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PC/">
+                        <span class="tag">PC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/electron/">
+                        <span class="tag">electron</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/java/">
+                        <span class="tag">java</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javaScript/">
+                        <span class="tag">javaScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%96%B9%E5%AF%B8/">
+                        <span class="tag">方寸</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+                        <span class="tag">服务器</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E6%BA%90%E7%A0%81/">
+                        <span class="tag">源码</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E7%AC%94%E8%AE%B0/">
+                        <span class="tag">笔记</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.svg" alt="将node和mongodb部署到CentOS" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Daisy&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://yoursite.com',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
